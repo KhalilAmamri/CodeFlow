@@ -1,0 +1,9 @@
+{% extends "layout.html"%}
+{% block content %}
+    {% for lesson in lessons %}
+    <h1>{{lesson.title}}</h1>
+    <p>in: {{lesson.course}}</p>
+    <h5>by: {{lesson.author}}</h5>
+    {% endfor %}
+    <h1> Home Page</h1>
+{% endblock content %}
