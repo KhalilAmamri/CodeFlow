@@ -98,7 +98,10 @@ def register():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        flash(f"Login successful for {form.email.data}!", 'success')
+        # add a simple test for login with hardcoded credentials
+        if form.email.data == "khalilamamri@gmail.com" and form.password.data == "password123":
+            flash("Login successful!", 'success')
+            return redirect(url_for('home'))
     return render_template('login.html', title = "Login", form = form)
 
 if __name__== "__main__":
