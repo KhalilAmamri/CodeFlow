@@ -10,7 +10,7 @@ class User(db.Model):
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     lessons = db.relationship('Lesson', backref='author', lazy=True)
     def __repr__(self):
-        return f"User('{self.first_name}', '{self.last_name}', '{self.username}', '{self.email}')"
+        return f"User('{self.first_name}', '{self.last_name}', '{self.username}', '{self.email}', '{self.image_file}')"
 
 
 class Lesson(db.Model):
