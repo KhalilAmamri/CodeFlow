@@ -1,3 +1,4 @@
+from flask_login import login_user
 from pythonic.models import User, Lesson, Course
 from flask import render_template, url_for, flash, redirect
 from pythonic.forms import RegistrationForm, LoginForm
@@ -115,11 +116,12 @@ def register():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        # add a simple test for login with hardcoded credentials
-        if (
-            form.email.data == "khalilamamri@gmail.com"
-            and form.password.data == "password123"
-        ):
-            flash("Login successful!", "success")
-            return redirect(url_for("home"))
+            user = User.query.filter_by(email=form.email.data).first()
+            if user and bcrypt.check_password_hash(user.password, form.password.data):
+                login_user(user, remember=form.remember.data)
+                flash("Login successful!", "success")
+                return redirect(url_for("home"))
+            else:
+                flash("Login Unsuccessful. Please check email and password", "danger")
+            
     return render_template("login.html", title="Login", form=form)
