@@ -1,6 +1,6 @@
-from flask_login import login_user, current_user, logout_user
+from flask_login import login_user, current_user, logout_user, login_required
 from pythonic.models import User, Lesson, Course
-from flask import render_template, url_for, flash, redirect
+from flask import render_template, url_for, flash, redirect, request
 from pythonic.forms import RegistrationForm, LoginForm
 from pythonic import app, db, bcrypt
 
@@ -123,8 +123,9 @@ def login():
             user = User.query.filter_by(email=form.email.data).first()
             if user and bcrypt.check_password_hash(user.password, form.password.data):
                 login_user(user, remember=form.remember.data)
+                next_page = request.args.get('next')
                 flash("Login successful!", "success")
-                return redirect(url_for("home"))
+                return redirect(next_page) if next_page else redirect(url_for("home"))
             else:
                 flash("Login Unsuccessful. Please check email and password", "danger")
             
@@ -135,3 +136,8 @@ def logout():
         logout_user()
         flash("You have been logged out.", "info")
     return redirect(url_for("home"))
+
+@app.route("/dashboard")
+@login_required
+def dashboard():
+    return render_template("dashboard.html", title="Dashboard")
