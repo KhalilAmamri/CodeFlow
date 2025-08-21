@@ -106,7 +106,7 @@ def register():
             f"Account created for {form.first_name.data} {form.last_name.data}!",
             "success",
         )
-        return redirect(url_for("home"))
+        return redirect(url_for("login"))
 
     return render_template("register.html", title="Register", form=form)
 
