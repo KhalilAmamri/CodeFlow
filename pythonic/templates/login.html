@@ -1,7 +1,8 @@
 {% extends "layout.html" %}
 {% block content %}
-
+<div class="container mt-5 pt-5">
 <div class="container" mt-auto align-items-center>
+    
     <form action="" method="POST">
         {{ form.hidden_tag() }}
 
@@ -49,6 +50,7 @@
         Need An Account?
         <a class="ml-2" href="{{ url_for('register') }}">Sign Up Here</a>
     </small>
+</div>
 </div>
 
 {% endblock content %}
