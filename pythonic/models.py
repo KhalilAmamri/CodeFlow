@@ -1,0 +1,37 @@
+from datetime import datetime
+from pythonic import db
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    first_name = db.Column(db.String(150), nullable=False)
+    last_name = db.Column(db.String(150), nullable=False)
+    username = db.Column(db.String(150), unique=True, nullable=False)
+    email = db.Column(db.String(150), unique=True, nullable=False)
+    password = db.Column(db.String(60), nullable=False)
+    image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
+    lessons = db.relationship('Lesson', backref='author', lazy=True)
+    def __repr__(self):
+        return f"User('{self.first_name}', '{self.last_name}', '{self.username}', '{self.email}')"
+
+
+class Lesson(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    content = db.Column(db.Text, nullable=False)
+    thumbnail = db.Column(db.String(20), nullable=False, default='default_thumbnail.jpg')
+    slug = db.Column(db.String(32), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    course_id = db.Column(db.Integer, db.ForeignKey('course.id'), nullable=False)
+
+    def __repr__(self):
+        return f"Lesson('{self.title}', '{self.date_posted}')"
+
+class Course(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    icon = db.Column(db.String(20), nullable=False, default='default_icon.png')
+    lessons = db.relationship('Lesson', backref='course_name', lazy=True)
+    
+    def __repr__(self):
+        return f"Course('{self.name}', '{self.description}')"

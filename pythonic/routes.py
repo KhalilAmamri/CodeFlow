@@ -1,9 +1,7 @@
-from flask import Flask, render_template, url_for, flash, redirect
-from forms import RegistrationForm, LoginForm
-
-app = Flask(__name__)
-app.config['SECRET_KEY'] = 'e08fe17fe27ffc7009aba6a264a886ea81a5b5bd17f1fc97b9554c89c1464588'
-
+from pythonic.models import User, Lesson, Course
+from flask import render_template, url_for, flash, redirect
+from pythonic.forms import RegistrationForm, LoginForm
+from pythonic import app
 
 lessons = [{
     'title': 'Request Library Course',
@@ -103,6 +101,3 @@ def login():
             flash("Login successful!", 'success')
             return redirect(url_for('home'))
     return render_template('login.html', title = "Login", form = form)
-
-if __name__== "__main__":
-    app.run(debug=True)
