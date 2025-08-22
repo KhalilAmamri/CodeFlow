@@ -1,11 +1,37 @@
-{% extends "layout.html"%}
+{% extends "layout.html" %}
 {% block content %}
-<div class="container mt-5 pt-5"></div>
-
-<section>
-    <div class="container">
-        {{current_user.username}}'s Dashboard
+<div class="container my-5">
+    <div class="card p-4">
+        <h4 class="mb-4">Personal Information</h4>
+        <form>
+            <div class="row align-items-center mb-4">
+                <div class="col-md-2 text-center">
+                    <img src="{{ url_for('static', filename='default.jpg') }}" class="rounded-circle" width="100" height="100" alt="Profile Picture">
+                </div>
+                <div class="col-md-5">
+                    <label for="firstName" class="form-label">First Name</label>
+                    <input type="text" class="form-control mb-2" id="firstName" placeholder="First Name" readonly>
+                    <label for="username" class="form-label">User Name</label>
+                    <input type="text" class="form-control" id="username" placeholder="username">
+                </div>
+                <div class="col-md-5">
+                    <label for="lastName" class="form-label">Last Name</label>
+                    <input type="text" class="form-control mb-2" id="lastName" placeholder="Last Name" readonly>
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="email@example.com">
+                </div>
+            </div>
+            <h4 class="mb-3">Biography</h4>
+            <div class="mb-3">
+                <label for="bio" class="form-label">Bio</label>
+                <textarea class="form-control" id="bio" rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="picture" class="form-label">Your Picture</label>
+                <input class="form-control" type="file" id="picture">
+            </div>
+            <button type="submit" class="btn btn-success">Update</button>
+        </form>
     </div>
-</section>
 </div>
 {% endblock content %}
