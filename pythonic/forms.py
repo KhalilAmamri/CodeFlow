@@ -1,6 +1,7 @@
 from tokenize import String
 from flask_login import current_user
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
 from wtforms.validators import DataRequired, Email, Length, Regexp, EqualTo, ValidationError
 from pythonic.models import User
@@ -28,6 +29,7 @@ class UpdateProfileForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     username = StringField('Username', validators=[DataRequired(), Length(min=3, max=25)])
     bio = TextAreaField('Bio', validators=[Length(max=150)])
+    picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png'])])
     submit = SubmitField('Update Profile')
 
     def validate_username(self, username):

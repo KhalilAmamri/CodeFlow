@@ -3,11 +3,11 @@
 <div class="container my-5">
     <div class="card p-4">
         <h4 class="mb-4">Personal Information</h4>
-        <form action="" method="POST">
+        <form action="" method="POST" enctype="multipart/form-data">
             {{ profile_form.hidden_tag() }}
             <div class="row align-items-center mb-4">
                 <div class="col-md-2 text-center">
-                    <img src="{{ url_for('static', filename='default.jpg') }}" class="rounded-circle" width="100" height="100" alt="Profile Picture">
+                    <img src="{{image_file}}" class="rounded-circle" width="100" height="100" alt="Profile Picture">
                 </div>
                 <div class="col-md-5">
                     <label for="firstName" class="form-label">First Name</label>
@@ -48,8 +48,16 @@
                 {{profile_form.bio(class='form-control')}}
             </div>
             <div class="mb-3">
-                <label for="picture" class="form-label">Your Picture</label>
-                <input class="form-control" type="file" id="picture">
+                {{ profile_form.picture.label}}
+                {{ profile_form.picture(class='form-control-file') }}
+                {% if profile_form.picture.errors %}
+                {% for error in profile_form.picture.errors %}
+                <div class="text-danger">{{ error }}</div>
+                {% endfor %}
+                {% endif %}
+
+
+                
             </div>
             <button type="submit" class="btn btn-success">Update</button>
         </form>
