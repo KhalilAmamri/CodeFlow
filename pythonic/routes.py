@@ -1,7 +1,7 @@
 from flask_login import login_user, current_user, logout_user, login_required
 from pythonic.models import User, Lesson, Course
 from flask import render_template, url_for, flash, redirect, request
-from pythonic.forms import RegistrationForm, LoginForm
+from pythonic.forms import RegistrationForm, LoginForm, UpdateProfileForm
 from pythonic import app, db, bcrypt
 
 lessons = [
@@ -137,7 +137,19 @@ def logout():
         flash("You have been logged out.", "info")
     return redirect(url_for("home"))
 
-@app.route("/dashboard")
+@app.route("/dashboard", methods=["GET", "POST"])
 @login_required
 def dashboard():
-    return render_template("dashboard.html", title="Dashboard")
+    profile_form = UpdateProfileForm()
+    if profile_form.validate_on_submit():
+        current_user.username = profile_form.username.data
+        current_user.email = profile_form.email.data
+        current_user.bio = profile_form.bio.data
+        db.session.commit()
+        flash("Your profile has been updated!", "success")
+        return redirect(url_for("dashboard"))
+    elif request.method == "GET":
+        profile_form.username.data = current_user.username
+        profile_form.email.data = current_user.email
+        profile_form.bio.data = current_user.bio
+    return render_template("dashboard.html", title="Dashboard", profile_form=profile_form)
