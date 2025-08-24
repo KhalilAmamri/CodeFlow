@@ -50,3 +50,6 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired(), Length(min=6, max=35)])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
+
+class NewLessonForm(FlaskForm):
+    submit = SubmitField('Lesson')

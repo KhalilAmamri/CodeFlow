@@ -1,66 +1,29 @@
-{% extends "layout.html" %}
-{% block content %}
+{%extends "layout.html"%}
+{% block content%}
+<!-- Tabs -->
 <div class="container my-5">
-    <div class="card p-4">
-        <h4 class="mb-4">Personal Information</h4>
-        <form action="" method="POST" enctype="multipart/form-data">
-            {{ profile_form.hidden_tag() }}
-            <div class="row align-items-center mb-4">
-                <div class="col-md-2 text-center">
-                    <img src="{{image_file}}" class="rounded-circle" width="100" height="100" alt="Profile Picture">
-                </div>
-                <div class="col-md-5">
-                    <label for="firstName" class="form-label">First Name</label>
-                    <input type="text" class="form-control mb-2" id="firstName" placeholder="First Name" readonly value="{{ current_user.first_name }}">
-                    
-                    {{ profile_form.username.label(class='form-control-label') }}
-                {% if profile_form.username.errors %}
-                {{ profile_form.username(class='form-control form-control-lg is-invalid') }}
-                <div class="invalid-feedback">
-                    {% for error in profile_form.username.errors %}
-                    <span>{{ error }}</span>
-                    {% endfor %}
-                </div>
-                {% else %}
-                {{ profile_form.username(class='form-control form-control') }}
-                {% endif %}
+    <nav>
+        <div class="nav nav-tabs" id="tablist">
+            <a class="link" href="/dashboard/profile">
+                <button class="{{'nav-link active' if active_tab=='profile' else 'nav-link'}}" id="nav-profile-tab"
+                    data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab"
+                    aria-controls="nav-profile" aria-selected="true">Profile</button>
+            </a>
 
-                </div>
-                <div class="col-md-5">
-                    <label for="lastName" class="form-label">Last Name</label>
-                    <input type="text" class="form-control mb-2" id="lastName" placeholder="Last Name" readonly value="{{ current_user.last_name }}">
-                {{ profile_form.email.label(class='form-control-label') }}
-                {% if profile_form.email.errors %}
-                {{ profile_form.email(class='form-control form-control-lg is-invalid') }}
-                <div class="invalid-feedback">
-                    {% for error in profile_form.email.errors %}
-                    <span>{{ error }}</span>
-                    {% endfor %}
-                </div>
-                {% else %}
-                {{ profile_form.email(class='form-control form-control') }}
-                {% endif %}
-                </div>
-            </div>
-            <h4 class="mb-3">Biography</h4>
-            <div class="mb-3">
-                {{ profile_form.bio.label(class='form-control-label')}}
-                {{profile_form.bio(class='form-control')}}
-            </div>
-            <div class="mb-3">
-                {{ profile_form.picture.label}}
-                {{ profile_form.picture(class='form-control-file') }}
-                {% if profile_form.picture.errors %}
-                {% for error in profile_form.picture.errors %}
-                <div class="text-danger">{{ error }}</div>
-                {% endfor %}
-                {% endif %}
+            <a class="link" href="/dashboard/new_lesson">
+                <button class="{{'nav-link active' if active_tab=='new_lesson' else 'nav-link'}}" id="nav-newLesson-tab"
+                    data-bs-toggle="tab" data-bs-target="#nav-newLesson" type="button" role="tab"
+                    aria-controls="nav-newLesson" aria-selected="true">New Lesson</button>
+            </a>
+        </div>
+    </nav>
+    <!-- Tab contents here -->
+    <div class="tab-content" id="nav-tabContent">
+        <!-- profile -->
+        {% block profile %} {% endblock profile%}
+        <!-- New Lesson -->
+        {% block new_lesson %} {% endblock new_lesson %}
 
-
-                
-            </div>
-            <button type="submit" class="btn btn-success">Update</button>
-        </form>
     </div>
 </div>
 {% endblock content %}
