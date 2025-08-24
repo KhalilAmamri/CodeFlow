@@ -6,13 +6,78 @@
         {{ new_lesson_form.hidden_tag() }}
         <fieldset class="form-group">
             <legend class="border-bottom mb-4">Create New Lesson</legend>
+            <div class="mb-3">
+                <label for="course" class="form-label">Course</label>
+                <select class="form-select">
+                    <option selected>Select Course</option>
+                    <option value="1">Python Basics</option>
+                    <option value="2">Advanced Python</option>
+                    <option value="3">Data Science with Python</option>
+                </select>
+                <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#newCourse">
+                New Course?
+            </button>
+            </div>
+            <div class="mb-3">
+                <label for="title" class="form-label">Lesson Title</label>
+                <input type="text" class="form-control" id="title" name="title" placeholder="Enter lesson title">
+            </div>
+            <div class="mb-3">
+                <label for="content" class="form-label">Slug</label>
+                <input type="slug" class="form-control" id="title" name="slug" placeholder="Descriptve short version of your title. SEO friendly">
+            </div>
+            <div class="mb-3">
+                <label for="content" class="form-label">Lesson Article</label>
+                <textarea class="form-control" id="Lesson" name="content" rows="20" placeholder="Enter lesson content here..."></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="LessonImg" class="form-label">Lesson Image</label>
+                <input type="file" class="form-control" id="LessonImg" name="lesson_img" placeholder="Upload lesson image">
+            </div>
             <div class="form-group">
                 <div class="col-12">
-                    <button class="btn btn-success" type="submit">Create Lesson</button>
+                    <button class="btn btn-success" type="submit">Post</button>
                 </div>
             </div>
         </fieldset>
     </form>
+    <!-- Modal for New Course -->
+    <div class="modal fade" id="newCourse" tabindex="-1" aria-labelledby="newCourseModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newCourseModal">Create New Course</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Messages placeholder -->
+                    <div class="alert alert-info" style="display: none;">
+                        This is where messages would appear
+                    </div>
+                    
+                    <form>
+                        <input type="hidden" name="csrf_token" value="test_token">
+                        <div class="mb-3">
+                            <label class="form-control-label">Course Title</label>
+                            <input type="text" class="form-control" placeholder="Enter course title">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-control-label">Description</label>
+                            <textarea class="form-control" placeholder="Enter course description"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-control-label">Icon</label>
+                            <input type="file" class="form-control" placeholder="Upload course icon">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Create Course</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock new_lesson %}
