@@ -81,6 +81,8 @@
             </div>
         </fieldset>
     </form>
+    {{ckeditor.load()}}
+    {{ckeditor.config(name='new_lesson_form.content')}}
     <!-- Modal for New Course -->
     <div class="modal fade" id="newCourse" tabindex="-1" aria-labelledby="newCourseModal" aria-hidden="true">
         <div class="modal-dialog">

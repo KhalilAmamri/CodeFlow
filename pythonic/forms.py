@@ -6,6 +6,7 @@ from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
 from wtforms.validators import DataRequired, Email, Length, Regexp, EqualTo, ValidationError
 from pythonic.models import Course, User
+from flask_ckeditor import CKEditorField
 
 class RegistrationForm(FlaskForm):
     first_name = StringField('First Name', validators=[DataRequired(), Length(min=2, max=25)])
@@ -56,7 +57,7 @@ def choice_query():
 class NewLessonForm(FlaskForm):
     course = QuerySelectField('Course', query_factory=choice_query, get_label='title')
     title = StringField("Lesson Title", validators=[DataRequired(), Length(min=5, max=100)])
-    content = TextAreaField("Lesson Content", validators=[DataRequired(), Length(min=20)], render_kw={"rows": 10, "placeholder": "Write your lesson content here..."})
+    content = CKEditorField("Lesson Content", validators=[DataRequired(), Length(min=20)], render_kw={"rows": 10, "placeholder": "Write your lesson content here..."})
     slug = StringField("Lesson Slug", validators=[DataRequired(), Length(min=3, max=50)], render_kw={"placeholder": "Descriptive short version of your title. SEO friendly!"})
     thumbnail = FileField("Lesson Thumbnail", validators=[FileAllowed(['jpg', 'png'])])
     submit = SubmitField("Post")
