@@ -185,6 +185,16 @@ def profile():
 def new_lesson():
     new_lesson_form = NewLessonForm()
     if new_lesson_form.validate_on_submit():
+        course = new_lesson_form.course.data
+        lesson = Lesson(
+            title=new_lesson_form.title.data,
+            content=new_lesson_form.content.data, 
+            slug=new_lesson_form.slug.data, 
+            author=current_user, course_name=course
+        )
+        db.session.add(lesson)
+        db.session.commit()
+        
         flash("Your lesson has been created!", "success")
         return redirect(url_for("dashboard"))
     return render_template("new_lesson.html", title="New Lesson", new_lesson_form=new_lesson_form, active_tab='new_lesson')
