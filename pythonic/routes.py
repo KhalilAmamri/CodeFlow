@@ -184,4 +184,7 @@ def profile():
 @login_required
 def new_lesson():
     new_lesson_form = NewLessonForm()
+    if new_lesson_form.validate_on_submit():
+        flash("Your lesson has been created!", "success")
+        return redirect(url_for("dashboard"))
     return render_template("new_lesson.html", title="New Lesson", new_lesson_form=new_lesson_form, active_tab='new_lesson')

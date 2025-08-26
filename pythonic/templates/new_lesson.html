@@ -2,37 +2,77 @@
 {% block new_lesson %}
 
 <div class="{{'tab-pane show active fade p-3' if active_tab=='new_lesson' else 'tab-pane fade p-3'}}" id="nav-newLesson">
-    <form action="/dashboard/new_lesson" method="POST">
+    <form action="/dashboard/new_lesson" method="POST" enctype="multipart/form-data">
         {{ new_lesson_form.hidden_tag() }}
         <fieldset class="form-group">
             <legend class="border-bottom mb-4">Create New Lesson</legend>
             <div class="mb-3">
-                <label for="course" class="form-label">Course</label>
-                <select class="form-select">
-                    <option selected>Select Course</option>
-                    <option value="1">Python Basics</option>
-                    <option value="2">Advanced Python</option>
-                    <option value="3">Data Science with Python</option>
-                </select>
+                {{ new_lesson_form.course.label(class="form-control-label") }}
+                {% if new_lesson_form.course.errors %}
+                    {{ new_lesson_form.course(class="form-control is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in new_lesson_form.course.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ new_lesson_form.course(class="form-select") }}
+                {% endif %}
                 <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#newCourse">
                 New Course?
             </button>
             </div>
             <div class="mb-3">
-                <label for="title" class="form-label">Lesson Title</label>
-                <input type="text" class="form-control" id="title" name="title" placeholder="Enter lesson title">
+                {{ new_lesson_form.title.label(class="form-control-label") }}
+                {% if new_lesson_form.title.errors %}
+                    {{ new_lesson_form.title(class="form-control is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in new_lesson_form.title.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ new_lesson_form.title(class="form-control") }}
+                {% endif %}
             </div>
             <div class="mb-3">
-                <label for="content" class="form-label">Slug</label>
-                <input type="slug" class="form-control" id="title" name="slug" placeholder="Descriptve short version of your title. SEO friendly">
+                {{ new_lesson_form.slug.label(class="form-control-label") }}
+                {% if new_lesson_form.slug.errors %}
+                    {{ new_lesson_form.slug(class="form-control is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in new_lesson_form.slug.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ new_lesson_form.slug(class="form-control") }}
+                {% endif %}
             </div>
             <div class="mb-3">
-                <label for="content" class="form-label">Lesson Article</label>
-                <textarea class="form-control" id="Lesson" name="content" rows="20" placeholder="Enter lesson content here..."></textarea>
+                {{ new_lesson_form.content.label(class="form-control-label") }}
+                {% if new_lesson_form.content.errors %}
+                    {{ new_lesson_form.content(class="form-control is-invalid", rows="5") }}
+                    <div class="invalid-feedback">
+                        {% for error in new_lesson_form.content.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ new_lesson_form.content(class="form-control", rows="5") }}
+                {% endif %}
             </div>
             <div class="mb-3">
-                <label for="LessonImg" class="form-label">Lesson Image</label>
-                <input type="file" class="form-control" id="LessonImg" name="lesson_img" placeholder="Upload lesson image">
+                {{ new_lesson_form.thumbnail.label(class="form-control-label") }}
+                {% if new_lesson_form.thumbnail.errors %}
+                    {{ new_lesson_form.thumbnail(class="form-control is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in new_lesson_form.thumbnail.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ new_lesson_form.thumbnail(class="form-control") }}
+                {% endif %}
             </div>
             <div class="form-group">
                 <div class="col-12">
