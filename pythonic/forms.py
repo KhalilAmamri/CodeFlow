@@ -61,3 +61,9 @@ class NewLessonForm(FlaskForm):
     slug = StringField("Lesson Slug", validators=[DataRequired(), Length(min=3, max=50)], render_kw={"placeholder": "Descriptive short version of your title. SEO friendly!"})
     thumbnail = FileField("Lesson Thumbnail", validators=[FileAllowed(['jpg', 'png'])])
     submit = SubmitField("Post")
+
+class NewCourseForm(FlaskForm):
+    title = StringField("Course Title", validators=[DataRequired(), Length(min=5, max=100)])
+    description = TextAreaField("Course Description", validators=[DataRequired(), Length(min=20, max=500)], render_kw={"rows": 5, "placeholder": "Briefly describe what this course is about..."})
+    icon = FileField("Course icon", validators=[FileAllowed(['jpg', 'png'])])
+    submit = SubmitField("Create Course")

@@ -96,24 +96,52 @@
                     <div class="alert alert-info" style="display: none;">
                         This is where messages would appear
                     </div>
-                    
-                    <form>
+                    {{modal_messages()}}
+                    <form method="post">
+                        {{ new_course_form.hidden_tag() }}
                         <input type="hidden" name="csrf_token" value="test_token">
                         <div class="mb-3">
-                            <label class="form-control-label">Course Title</label>
-                            <input type="text" class="form-control" placeholder="Enter course title">
+                            {{ new_course_form.title.label(class="form-control-label") }}
+                            {% if new_course_form.title.errors %}
+                                {{ new_course_form.title(class="form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in new_course_form.title.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ new_course_form.title(class="form-control") }}
+                            {% endif %}
                         </div>
                         <div class="mb-3">
-                            <label class="form-control-label">Description</label>
-                            <textarea class="form-control" placeholder="Enter course description"></textarea>
+                            {{ new_course_form.description.label(class="form-control-label") }}
+                            {% if new_course_form.description.errors %}
+                                {{ new_course_form.description(class="form-control is-invalid", rows="3") }}
+                                <div class="invalid-feedback">
+                                    {% for error in new_course_form.description.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ new_course_form.description(class="form-control", rows="3") }}
+                            {% endif %}
                         </div>
                         <div class="mb-3">
-                            <label class="form-control-label">Icon</label>
-                            <input type="file" class="form-control" placeholder="Upload course icon">
+                            {{ new_course_form.icon.label(class="form-control-label") }}
+                            {% if new_course_form.icon.errors %}
+                                {{ new_course_form.icon(class="form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in new_course_form.icon.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ new_course_form.icon(class="form-control") }}
+                            {% endif %}
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Create Course</button>
+                            {{ new_course_form.submit(class="btn btn-primary") }}
                         </div>
                     </form>
                 </div>
