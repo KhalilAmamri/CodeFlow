@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_migrate import Migrate
+from flask_ckeditor import CKEditor
 from flask_modals import Modal
 
 app = Flask(__name__)
@@ -14,6 +15,7 @@ db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 migrate = Migrate(app, db)
 login_manager = LoginManager(app)
+ckeditor = CKEditor(app)
 modals = Modal(app)
 login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
