@@ -193,7 +193,16 @@ def new_lesson():
         form = 'new_lesson_form'
     elif 'description' in request.form:
         form = 'new_course_form'
-    if form =='new_course_form' and new_lesson_form.validate_on_submit():
+    if form == 'new_course_form' and new_course_form.validate_on_submit():
+        course = Course(
+            title=new_course_form.title.data,
+            description=new_course_form.description.data
+        )
+        db.session.add(course)
+        db.session.commit()
+        flash("Your course has been created!", "success")
+        return redirect(url_for("dashboard"))  # <-- This reloads the page
+    elif form == 'new_lesson_form' and new_lesson_form.validate_on_submit():
         course = new_lesson_form.course.data
         lesson = Lesson(
             title=new_lesson_form.title.data,
@@ -206,18 +215,7 @@ def new_lesson():
         
         flash("Your lesson has been created!", "success")
         return redirect(url_for("dashboard"))
-    elif form == 'new_course_form' and new_course_form.validate_on_submit():
-        course = Course(
-            title=new_course_form.title.data,
-            description=new_course_form.description.data
-            # icon can be added if you want to support file upload
-        )
-        db.session.add(course)
-        db.session.commit()
-        session['flag'] = True
-        flash("Your course has been created!", "success")
-        return redirect(url_for("dashboard"))
-    modals = None if flag else 'newCourse'
+    modals = Modal().load
     return render_template_modal(
         "new_lesson.html", title="New Lesson",
         new_course_form=new_course_form,
