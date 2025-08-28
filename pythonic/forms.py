@@ -66,3 +66,7 @@ class NewCourseForm(FlaskForm):
     description = TextAreaField("Course Description", validators=[DataRequired(), Length(min=20, max=500)], render_kw={"rows": 5, "placeholder": "Briefly describe what this course is about..."})
     icon = FileField("Course icon", validators=[FileAllowed(['jpg', 'png'])])
     submit = SubmitField("Create Course")
+    def validate_title(self, title):
+        course = Course.query.filter_by(title=title.data).first()
+        if course:
+            raise ValidationError('That course title is already taken. Please choose a different one.')

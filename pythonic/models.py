@@ -35,7 +35,7 @@ class Lesson(db.Model):
 
 class Course(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
+    title = db.Column(db.String(100), nullable=False, unique=True)
     description = db.Column(db.Text, nullable=False)
     icon = db.Column(db.String(20), nullable=False, default='default_icon.png')
     lessons = db.relationship('Lesson', backref='course_name', lazy=True)
