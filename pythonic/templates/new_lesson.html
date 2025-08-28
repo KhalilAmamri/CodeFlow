@@ -18,9 +18,9 @@
                 {% else %}
                     {{ new_lesson_form.course(class="form-select") }}
                 {% endif %}
-                <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#newCourse">
-                New Course?
-            </button>
+                <a href="{{ url_for('new_course') }}" class="btn btn-primary mt-3">
+                    New Course?
+                </a>
             </div>
             <div class="mb-3">
                 {{ new_lesson_form.title.label(class="form-control-label") }}
@@ -81,73 +81,29 @@
             </div>
         </fieldset>
     </form>
-    {{ckeditor.load()}}
-    {{ckeditor.config(name='new_lesson_form.content')}}
-    <!-- Modal for New Course -->
-    <div class="modal fade" id="newCourse" tabindex="-1" aria-labelledby="newCourseModal" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="newCourseModal">Create New Course</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- Messages placeholder -->
-                    <div class="alert alert-info" style="display: none;">
-                        This is where messages would appear
-                    </div>
-                    {{modal_messages()}}
-                    <form method="post">
-                        {{ new_course_form.hidden_tag() }}
-                        <input type="hidden" name="csrf_token" value="test_token">
-                        <div class="mb-3">
-                            {{ new_course_form.title.label(class="form-control-label") }}
-                            {% if new_course_form.title.errors %}
-                                {{ new_course_form.title(class="form-control is-invalid") }}
-                                <div class="invalid-feedback">
-                                    {% for error in new_course_form.title.errors %}
-                                        <span>{{ error }}</span>
-                                    {% endfor %}
-                                </div>
-                            {% else %}
-                                {{ new_course_form.title(class="form-control") }}
-                            {% endif %}
-                        </div>
-                        <div class="mb-3">
-                            {{ new_course_form.description.label(class="form-control-label") }}
-                            {% if new_course_form.description.errors %}
-                                {{ new_course_form.description(class="form-control is-invalid", rows="3") }}
-                                <div class="invalid-feedback">
-                                    {% for error in new_course_form.description.errors %}
-                                        <span>{{ error }}</span>
-                                    {% endfor %}
-                                </div>
-                            {% else %}
-                                {{ new_course_form.description(class="form-control", rows="3") }}
-                            {% endif %}
-                        </div>
-                        <div class="mb-3">
-                            {{ new_course_form.icon.label(class="form-control-label") }}
-                            {% if new_course_form.icon.errors %}
-                                {{ new_course_form.icon(class="form-control is-invalid") }}
-                                <div class="invalid-feedback">
-                                    {% for error in new_course_form.icon.errors %}
-                                        <span>{{ error }}</span>
-                                    {% endfor %}
-                                </div>
-                            {% else %}
-                                {{ new_course_form.icon(class="form-control") }}
-                            {% endif %}
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            {{ new_course_form.submit(class="btn btn-primary") }}
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+    
+    <!-- Latest CKEditor from CDN (Secure Version) -->
+    <script src="https://cdn.ckeditor.com/4.25.1/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('new_lesson_form.content', {
+            height: 300,
+            removePlugins: 'elementspath,resize',
+            toolbar: [
+                { name: 'document', items: ['Source', '-', 'Save', 'NewPage', 'Preview', 'Print', '-', 'Templates'] },
+                { name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'] },
+                { name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'SpellChecker', 'Scayt'] },
+                '/',
+                { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'] },
+                { name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl'] },
+                { name: 'links', items: ['Link', 'Unlink', 'Anchor'] },
+                { name: 'insert', items: ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe'] },
+                '/',
+                { name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },
+                { name: 'colors', items: ['TextColor', 'BGColor'] },
+                { name: 'tools', items: ['Maximize', 'ShowBlocks'] }
+            ]
+        });
+    </script>
 </div>
 
 {% endblock new_lesson %}

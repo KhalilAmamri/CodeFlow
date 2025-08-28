@@ -186,23 +186,7 @@ def profile():
 @login_required
 def new_lesson():
     new_lesson_form = NewLessonForm()
-    new_course_form = NewCourseForm()
-    flag = session.pop('flag', False)
-    form = ''
-    if 'slug' in request.form:
-        form = 'new_lesson_form'
-    elif 'description' in request.form:
-        form = 'new_course_form'
-    if form == 'new_course_form' and new_course_form.validate_on_submit():
-        course = Course(
-            title=new_course_form.title.data,
-            description=new_course_form.description.data
-        )
-        db.session.add(course)
-        db.session.commit()
-        flash("Your course has been created!", "success")
-        return redirect(url_for("dashboard"))  # <-- This reloads the page
-    elif form == 'new_lesson_form' and new_lesson_form.validate_on_submit():
+    if new_lesson_form.validate_on_submit():
         course = new_lesson_form.course.data
         lesson = Lesson(
             title=new_lesson_form.title.data,
@@ -215,11 +199,32 @@ def new_lesson():
         
         flash("Your lesson has been created!", "success")
         return redirect(url_for("dashboard"))
+    
     modals = Modal().load
     return render_template_modal(
         "new_lesson.html", title="New Lesson",
-        new_course_form=new_course_form,
         new_lesson_form=new_lesson_form, 
         active_tab='new_lesson',
         modals=modals
     )
+
+@app.route("/dashboard/new_course", methods=["GET", "POST"])
+@login_required
+def new_course():
+    new_course_form = NewCourseForm()
+    if new_course_form.validate_on_submit():
+        icon_file = 'default_icon.png'  # Default icon
+        if new_course_form.icon.data:
+            icon_file = save_picture(new_course_form.icon.data)
+        
+        course = Course(
+            title=new_course_form.title.data,
+            description=new_course_form.description.data,
+            icon=icon_file
+        )
+        db.session.add(course)
+        db.session.commit()
+        flash("Your course has been created!", "success")
+        return redirect(url_for("dashboard"))
+    
+    return render_template("new_course.html", title="New Course", new_course_form=new_course_form, active_tab='new_course')

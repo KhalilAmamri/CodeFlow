@@ -15,6 +15,12 @@
                     data-bs-toggle="tab" data-bs-target="#nav-newLesson" type="button" role="tab"
                     aria-controls="nav-newLesson" aria-selected="true">New Lesson</button>
             </a>
+
+            <a class="link" href="/dashboard/new_course">
+                <button class="{{'nav-link active' if active_tab=='new_course' else 'nav-link'}}" id="nav-newCourse-tab"
+                    data-bs-toggle="tab" data-bs-target="#nav-newCourse" type="button" role="tab"
+                    aria-controls="nav-newCourse" aria-selected="true">New Course</button>
+            </a>
         </div>
     </nav>
     <!-- Tab contents here -->
@@ -23,6 +29,8 @@
         {% block profile %} {% endblock profile%}
         <!-- New Lesson -->
         {% block new_lesson %} {% endblock new_lesson %}
+        <!-- New Course -->
+        {% block new_course %} {% endblock new_course %}
 
     </div>
 </div>
