@@ -9,89 +9,21 @@ from pythonic import app, db, bcrypt
 from flask_modals import Modal, render_template_modal
 
 
-lessons = [
-    {
-        "title": "Request Library Course",
-        "course": "Python",
-        "author": "Omar",
-        "thumbnail": "thumbnail.jpg",
-    },
-    {
-        "title": "Request Library Course",
-        "course": "Python",
-        "author": "Omar",
-        "thumbnail": "thumbnail.jpg",
-    },
-    {
-        "title": "Request Library Course",
-        "course": "Python",
-        "author": "Omar",
-        "thumbnail": "thumbnail.jpg",
-    },
-    {
-        "title": "Request Library Course",
-        "course": "Python",
-        "author": "Omar",
-        "thumbnail": "thumbnail.jpg",
-    },
-    {
-        "title": "Request Library Course",
-        "course": "Python",
-        "author": "Omar",
-        "thumbnail": "thumbnail.jpg",
-    },
-    {
-        "title": "Request Library Course",
-        "course": "Python",
-        "author": "Omar",
-        "thumbnail": "thumbnail.jpg",
-    },
-]
-courses = [
-    {
-        "name": "Python",
-        "icon": "python.png",
-        "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque quidem nihil dolor officiis at magni!",
-    },
-    {
-        "name": "Data Analysis",
-        "icon": "analysis.png",
-        "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque quidem nihil dolor officiis at magni!",
-    },
-    {
-        "name": "Machine Learning",
-        "icon": "machine-learning.png",
-        "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque quidem nihil dolor officiis at magni!",
-    },
-    {
-        "name": "Web Design",
-        "icon": "web.png",
-        "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque quidem nihil dolor officiis at magni!",
-    },
-    {
-        "name": "Blockchain",
-        "icon": "blockchain.png",
-        "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque quidem nihil dolor officiis at magni!",
-    },
-    {
-        "name": "Tips & Tricks",
-        "icon": "idea.png",
-        "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque quidem nihil dolor officiis at magni!",
-    },
-]
 
-def save_picture(form_picture):
+def save_picture(form_picture, path, output_size = None):
     random_hex = secrets.token_hex(8)
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_name = random_hex + f_ext
-    picture_path = os.path.join(app.root_path, 'static/user_pics', picture_name)
-    output_size = (125, 125)
+    picture_path = os.path.join(app.root_path, path, picture_name)
     i = Image.open(form_picture)
-    i.thumbnail(output_size)
+    if output_size:   
+        i.thumbnail(output_size)
     i.save(picture_path)
     return picture_name
 @app.route("/")
 def home():
+    lessons = Lesson.query.all()
+    courses = Course.query.all()
     return render_template("home.html", lessons=lessons, courses=courses)
 
 
@@ -162,7 +94,7 @@ def profile():
     profile_form = UpdateProfileForm()
     if profile_form.validate_on_submit():
         if profile_form.picture.data:
-            picture_file = save_picture(profile_form.picture.data)
+            picture_file = save_picture(profile_form.picture.data, 'static/user_pics', (125, 125))
             current_user.image_file = picture_file
         current_user.username = profile_form.username.data
         current_user.email = profile_form.email.data
@@ -187,12 +119,15 @@ def profile():
 def new_lesson():
     new_lesson_form = NewLessonForm()
     if new_lesson_form.validate_on_submit():
+        if new_lesson_form.thumbnail.data:
+            picture_file = save_picture(new_lesson_form.thumbnail.data, 'static/lesson_thumbnails')
         course = new_lesson_form.course.data
         lesson = Lesson(
             title=new_lesson_form.title.data,
             content=new_lesson_form.content.data, 
             slug=new_lesson_form.slug.data, 
-            author=current_user, course_name=course
+            author=current_user, course_name=course,
+            thumbnail=picture_file
         )
         db.session.add(lesson)
         db.session.commit()
@@ -213,14 +148,12 @@ def new_lesson():
 def new_course():
     new_course_form = NewCourseForm()
     if new_course_form.validate_on_submit():
-        icon_file = 'default_icon.png'  # Default icon
         if new_course_form.icon.data:
-            icon_file = save_picture(new_course_form.icon.data)
-        
+            picture_file = save_picture(new_course_form.icon.data, 'static/course_icons', (150, 150))
         course = Course(
             title=new_course_form.title.data,
             description=new_course_form.description.data,
-            icon=icon_file
+            icon=picture_file
         )
         db.session.add(course)
         db.session.commit()
