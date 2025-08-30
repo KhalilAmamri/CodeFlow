@@ -22,8 +22,8 @@ def save_picture(form_picture, path, output_size = None):
     return picture_name
 @app.route("/")
 def home():
-    lessons = Lesson.query.all()
-    courses = Course.query.all()
+    lessons = Lesson.query.order_by(Lesson.date_posted.desc()).all()
+    courses = Course.query.order_by(Course.date_posted.desc()).all()
     return render_template("home.html", lessons=lessons, courses=courses)
 
 

@@ -38,6 +38,7 @@ class Course(db.Model):
     title = db.Column(db.String(100), nullable=False, unique=True)
     description = db.Column(db.Text, nullable=False)
     icon = db.Column(db.String(20), nullable=False, default='default_icon.png')
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     lessons = db.relationship('Lesson', backref='course_name', lazy=True)
     
     def __repr__(self):
