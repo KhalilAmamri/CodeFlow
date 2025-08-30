@@ -84,11 +84,11 @@
             {% for course in courses %}
             <div class="col-sm-12 col-md-6 col-lg-4 p-3 d-flex align-items-stretch">
                 <a href="#course_name" class="text-decoration-none">
-                    <div class="card bg-dark text-light">
+                    <div class="card bg-dark text-light h-100">
                         <div class="card-body text-center">
                             <img src="{{url_for('static', filename='course_icons/'+course.icon)}}" alt="" class="card-img w-25">
                             <h4 class="card-title mb-4">
-                                {{course.name}}
+                                {{course.title}}
                             </h4>
                             <p class="card-text">{{course.description}}</p>
                         </div>
@@ -114,10 +114,10 @@
                     <img src="{{url_for('static', filename='lesson_thumbnails/'+lesson.thumbnail)}}" class="card-img">
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title">
-                            <a class="text-decoration-none text-dark" href="#">{{lesson.title}}</a>
+                            <a class="text-decoration-none text-dark" href="{{url_for('lesson', course_slug=lesson.course_name.slug, lesson_slug=lesson.slug)}}">{{lesson.title}}</a>
                         </h5>
                         <p class="card-text mb-0">In:
-                            <a class="text-decoration-none" href="#">{{lesson.course_name.title}}</a>
+                            <a class="text-decoration-none" href="{{url_for('course', course_slug=lesson.course_name.slug)}}">{{lesson.course_name.title}}</a>
                         </p>
                         <span><img class="article-img rounded-circle" src="{{url_for('static', filename='user_pics/'+lesson.author.image_file)}}" alt="">By: <a
                                 href="#" class="link">{{lesson.author.username}}</a></span>

@@ -20,6 +20,17 @@ def save_picture(form_picture, path, output_size = None):
         i.thumbnail(output_size)
     i.save(picture_path)
     return picture_name
+
+def fet_previous_next_lesson(lesson_slug, course_slug):
+    course = lesson.course_name
+    for lsn in course.lessons:
+        if lsn.title == lesson_title:
+            index = course.lessons.index(lsn)
+            previous_lesson = course.lessons[index - 1] if index > 0 else None
+            next_lesson = course.lessons[index + 1] if index < len(course.lessons) - 1 else None
+            break
+    return previous_lesson, next_lesson
+
 @app.route("/")
 def home():
     lessons = Lesson.query.order_by(Lesson.date_posted.desc()).all()
@@ -119,14 +130,20 @@ def profile():
 def new_lesson():
     new_lesson_form = NewLessonForm()
     if new_lesson_form.validate_on_submit():
+        # تعريف المتغيرات خارج الشرط
+        lesson_slug = str(new_lesson_form.title.data).lower().replace(" ", "-")
+        picture_file = 'default_thumbnail.jpg'  # قيمة افتراضية
+        
         if new_lesson_form.thumbnail.data:
             picture_file = save_picture(new_lesson_form.thumbnail.data, 'static/lesson_thumbnails')
+        
         course = new_lesson_form.course.data
         lesson = Lesson(
             title=new_lesson_form.title.data,
             content=new_lesson_form.content.data, 
-            slug=new_lesson_form.slug.data, 
-            author=current_user, course_name=course,
+            slug=lesson_slug, 
+            author=current_user, 
+            course_name=course,
             thumbnail=picture_file
         )
         db.session.add(lesson)
@@ -148,12 +165,17 @@ def new_lesson():
 def new_course():
     new_course_form = NewCourseForm()
     if new_course_form.validate_on_submit():
+        course_slug = str(new_course_form.title.data).lower().replace(" ", "-")
+        picture_file = 'default_icon.png'
+        
         if new_course_form.icon.data:
             picture_file = save_picture(new_course_form.icon.data, 'static/course_icons', (150, 150))
+
         course = Course(
             title=new_course_form.title.data,
             description=new_course_form.description.data,
-            icon=picture_file
+            icon=picture_file,
+            slug=course_slug
         )
         db.session.add(course)
         db.session.commit()
@@ -161,3 +183,30 @@ def new_course():
         return redirect(url_for("dashboard"))
     
     return render_template("new_course.html", title="New Course", new_course_form=new_course_form, active_tab='new_course')
+
+@app.route("/<string:course_slug>/<string:lesson_slug>")
+def lesson(course_slug, lesson_slug):
+    course = Course.query.filter_by(slug=course_slug).first_or_404()
+    lesson = Lesson.query.filter_by(slug=lesson_slug, course_id=course.id).first_or_404()
+        # Get previous and next lessons
+    lessons = Lesson.query.filter_by(course_id=course.id).order_by(Lesson.date_posted.asc()).all()
+    current_index = None
+    for i, lsn in enumerate(lessons):
+        if lsn.slug == lesson_slug:
+            current_index = i
+            break
+    
+    previous_lesson = lessons[current_index - 1] if current_index > 0 else None
+    next_lesson = lessons[current_index + 1] if current_index < len(lessons) - 1 else None
+    
+    return render_template("lesson.html", 
+                         title=lesson.title, 
+                         lesson=lesson, 
+                         course=course,
+                         previous_lesson=previous_lesson,
+                         next_lesson=next_lesson)
+@app.route("/course/<string:course_slug>")
+def course(course_slug):
+    course = Course.query.filter_by(slug=course_slug).first_or_404()
+    lessons = Lesson.query.filter_by(course_id=course.id).order_by(Lesson.date_posted.asc()).all()
+    return render_template("course.html", title=course.title, course=course, lessons=lessons)

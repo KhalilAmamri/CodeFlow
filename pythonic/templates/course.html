@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card bg-dark text-light mb-4">
+                <div class="card-body text-center">
+                    <img src="{{url_for('static', filename='course_icons/'+course.icon)}}" alt="" class="card-img w-25 mb-3">
+                    <h1 class="card-title">{{ course.title }}</h1>
+                    <p class="lead">{{ course.description }}</p>
+                </div>
+            </div>
+            
+            <h3 class="mb-4">Lessons in this course:</h3>
+            <div class="row">
+                {% for lesson in lessons %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="{{url_for('static', filename='lesson_thumbnails/'+lesson.thumbnail)}}" class="card-img-top" alt="">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">
+                                <a href="{{url_for('lesson', course_slug=course.slug, lesson_slug=lesson.slug)}}" 
+                                   class="text-decoration-none text-dark">
+                                    {{ lesson.title }}
+                                </a>
+                            </h5>
+                            <p class="card-text flex-grow-1">{{ lesson.content[:100] }}...</p>
+                            <div class="mt-auto">
+                                <small class="text-muted">
+                                    <img class="article-img rounded-circle me-2" 
+                                         src="{{url_for('static', filename='user_pics/'+lesson.author.image_file)}}" 
+                                         alt="" style="width: 20px; height: 20px;">
+                                    By: {{ lesson.author.username }}
+                                </small>
+                                <br>
+                                <small class="text-muted">{{ lesson.date_posted.strftime('%Y-%m-%d') }}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
