@@ -224,3 +224,8 @@ def course(course_slug):
     course = Course.query.filter_by(slug=course_slug).first_or_404()
     lessons = Lesson.query.filter_by(course_id=course.id).order_by(Lesson.date_posted.asc()).all()
     return render_template("course.html", title=course.title, course=course)
+
+@app.route("/courses")
+def courses():
+    courses = Course.query.order_by(Course.date_posted.desc()).all()
+    return render_template("courses.html", title="Courses", courses=courses)
