@@ -47,6 +47,7 @@
                 {% else %}
                     {{ new_lesson_form.slug(class="form-control") }}
                 {% endif %}
+                <small class="form-text text-muted">Leave empty to generate automatically from title</small>
             </div>
             <div class="mb-3">
                 {{ new_lesson_form.content.label(class="form-control-label") }}

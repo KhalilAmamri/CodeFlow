@@ -3,8 +3,8 @@ from flask_login import current_user
 from flask_wtf import FlaskForm
 from wtforms_sqlalchemy.fields import QuerySelectField
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
-from wtforms.validators import DataRequired, Email, Length, Regexp, EqualTo, ValidationError
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, SelectField
+from wtforms.validators import DataRequired, Email, Length, Regexp, EqualTo, ValidationError, Optional
 from pythonic.models import Course, User
 from flask_ckeditor import CKEditorField
 
@@ -55,17 +55,18 @@ class LoginForm(FlaskForm):
 def choice_query():
     return Course.query
 class NewLessonForm(FlaskForm):
-    course = QuerySelectField('Course', query_factory=choice_query, get_label='title')
-    title = StringField("Lesson Title", validators=[DataRequired(), Length(min=5, max=100)])
-    content = CKEditorField("Lesson Content", validators=[DataRequired(), Length(min=20)], render_kw={"rows": 10, "placeholder": "Write your lesson content here..."})
-    slug = StringField("Lesson Slug", validators=[DataRequired(), Length(min=3, max=50)], render_kw={"placeholder": "Descriptive short version of your title. SEO friendly!"})
-    thumbnail = FileField("Lesson Thumbnail", validators=[FileAllowed(['jpg', 'png'])])
+    title = StringField('Title', validators=[DataRequired()])
+    content = CKEditorField('Content', validators=[DataRequired()])
+    slug = StringField('Slug (optional)', validators=[Optional()])
+    course = SelectField('Course', coerce=int, validators=[DataRequired()])
+    thumbnail = FileField('Thumbnail')
     submit = SubmitField("Post")
 
 class NewCourseForm(FlaskForm):
     title = StringField("Course Title", validators=[DataRequired(), Length(min=5, max=100)])
     description = TextAreaField("Course Description", validators=[DataRequired(), Length(min=20, max=500)], render_kw={"rows": 5, "placeholder": "Briefly describe what this course is about..."})
     icon = FileField("Course icon", validators=[FileAllowed(['jpg', 'png'])])
+    slug = StringField('Slug (optional)', validators=[Optional()])
     submit = SubmitField("Create Course")
     def validate_title(self, title):
         course = Course.query.filter_by(title=title.data).first()

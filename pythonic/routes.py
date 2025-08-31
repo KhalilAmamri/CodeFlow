@@ -129,19 +129,28 @@ def profile():
 @login_required
 def new_lesson():
     new_lesson_form = NewLessonForm()
+    
+    # Get all courses for the dropdown
+    courses = Course.query.all()
+    new_lesson_form.course.choices = [(course.id, course.title) for course in courses]
+    
     if new_lesson_form.validate_on_submit():
-        # تعريف المتغيرات خارج الشرط
-        lesson_slug = str(new_lesson_form.title.data).lower().replace(" ", "-")
-        picture_file = 'default_thumbnail.jpg'  # قيمة افتراضية
+        # Check if user provided a slug, otherwise generate automatically
+        if new_lesson_form.slug.data:
+            lesson_slug = new_lesson_form.slug.data
+        else:
+            lesson_slug = str(new_lesson_form.title.data).lower().replace(" ", "-")
+        
+        picture_file = 'default_thumbnail.jpg'
         
         if new_lesson_form.thumbnail.data:
             picture_file = save_picture(new_lesson_form.thumbnail.data, 'static/lesson_thumbnails')
         
-        course = new_lesson_form.course.data
+        course = Course.query.get(new_lesson_form.course.data)
         lesson = Lesson(
             title=new_lesson_form.title.data,
             content=new_lesson_form.content.data, 
-            slug=lesson_slug, 
+            slug=lesson_slug,
             author=current_user, 
             course_name=course,
             thumbnail=picture_file
@@ -165,7 +174,12 @@ def new_lesson():
 def new_course():
     new_course_form = NewCourseForm()
     if new_course_form.validate_on_submit():
-        course_slug = str(new_course_form.title.data).lower().replace(" ", "-")
+        # Check if user provided a slug, otherwise generate automatically
+        if new_course_form.slug.data:
+            course_slug = new_course_form.slug.data
+        else:
+            course_slug = str(new_course_form.title.data).lower().replace(" ", "-")
+        
         picture_file = 'default_icon.png'
         
         if new_course_form.icon.data:
