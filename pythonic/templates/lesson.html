@@ -1,23 +1,31 @@
 {% extends "layout.html"%}
 {% block content %}
+
+<!-- Main Lesson Content Container -->
 <div class="container">
     <div class="row">
-        <!-- article contents -->
+        <!-- Main Content Area - Lesson text and navigation -->
         <div class="col-lg-8 col-md-12">
+            <!-- Lesson content display section -->
             <div class="lesson-content">
+                <!-- Lesson title heading -->
                 <h1>{{ lesson.title }}</h1>
+                
+                <!-- Course context link -->
                 <p class="text-muted">Course: <a href="{{url_for('course', course_slug=course.slug)}}">{{ course.title }}</a></p>
                 
+                <!-- Main lesson body content -->
                 <div class="lesson-body">
                     {{ lesson.content|safe }}
                 </div>
             </div>
-            <!--  previous and next lesson -->
+            
+            <!-- Lesson Navigation - Previous and Next lesson buttons -->
             <div class="row justify-content-md-center">
+                <!-- Previous lesson button -->
                 <div class="col-4">
                     {% if previous_lesson %}
-                    <a
-                        href="{{url_for('lesson', course_slug=course.slug, lesson_slug=previous_lesson.slug)}}">
+                    <a href="{{url_for('lesson', course_slug=course.slug, lesson_slug=previous_lesson.slug)}}">
                         <button class="btn btn-warning" type="button" data-bs-toggle="tooltip" data-bs-placement="top"
                             title="{{previous_lesson.title}}">
                             &lt&lt&lt Previous Lesson
@@ -25,6 +33,8 @@
                     </a>
                     {% endif %}
                 </div>
+                
+                <!-- Next lesson button -->
                 <div class="col-4">
                     {% if next_lesson %}
                     <a href="{{url_for('lesson', course_slug=course.slug, lesson_slug=next_lesson.slug)}}">
@@ -37,40 +47,46 @@
                 </div>
             </div>
         </div>
-        <!-- sidebar -->
+        
+        <!-- Sidebar - Author info, course details, and lesson list -->
         <div class="col-4">
-            <!-- author -->
+            <!-- Author information section -->
             <div class="my-5">
-                <span><img class="article-img"
-                        src="{{url_for('static',filename='user_pics/'+lesson.author.image_file)}}" alt="">By:
-                    <a href="#" class="link">{{lesson.author.username}}</a>
+                <span>
+                    <!-- Author profile picture -->
+                    <img class="article-img" src="{{url_for('static',filename='user_pics/'+lesson.author.image_file)}}" alt="">
+                    By: <a href="#" class="link">{{lesson.author.username}}</a>
+                    
+                    <!-- Lesson publication date -->
                     <span class="text-muted">On: {{lesson.date_posted.strftime('%Y-%m-%d')}}</span>
                 </span>
             </div>
-            <!-- course icon -->
+            
+            <!-- Course icon display -->
             <img src="{{url_for('static', filename='course_icons/'+lesson.course_name.icon)}}" alt="">
             <br>
-            <!-- list of lessons in this course -->
+            
+            <!-- Course lessons navigation list -->
             <ul class="list-group" style="display:inline-block">
                 {% for lsn in lesson.course_name.lessons %}
-                {% if lsn.title == lesson.title %}
-                <li class="list-group-item border active" aria-current="true">
-                    <a class="link text-light"
-                        href="{{url_for('lesson', course_slug=course.slug, lesson_slug=lsn.slug)}}">{{lsn.title}}</a>
-                </li>
-                {% else %}
-                <li class="list-group-item border" aria-current="false">
-                    <a class="link text-dark"
-                        href="{{url_for('lesson', course_slug=course.slug, lesson_slug=lsn.slug)}}">{{lsn.title}}</a>
-                </li>
-                {% endif %}
+                    {% if lsn.title == lesson.title %}
+                    <!-- Current lesson - highlighted as active -->
+                    <li class="list-group-item border active" aria-current="true">
+                        <a class="link text-light"
+                            href="{{url_for('lesson', course_slug=course.slug, lesson_slug=lsn.slug)}}">{{lsn.title}}</a>
+                    </li>
+                    {% else %}
+                    <!-- Other lessons in the course -->
+                    <li class="list-group-item border" aria-current="false">
+                        <a class="link text-dark"
+                            href="{{url_for('lesson', course_slug=course.slug, lesson_slug=lsn.slug)}}">{{lsn.title}}</a>
+                    </li>
+                    {% endif %}
                 {% endfor %}
             </ul>
-
         </div>
     </div>
     <br>
-
 </div>
 
 {% endblock content%}

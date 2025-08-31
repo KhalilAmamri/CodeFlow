@@ -1,36 +1,52 @@
 {% extends "layout.html"%}
 {% block content %}
+
+<!-- Hero Section - Main landing area with call-to-action -->
 <section class="bg-dark text-light p-5 p-lg-0 pt-lg-5 text-center text-sm-start">
     <div class="container">
         <div class="d-sm-flex align-items-center justify-content-between">
             <div>
+                <!-- Main headline with highlighted text -->
                 <h1 class="mb-10"> Learn <span class="text-warning"> To Code</span></h1>
+                
+                <!-- Value proposition and motivation text -->
                 <p class="lead my-4">
                     We focus on teaching programming in an intuitive and easy to follow way. All you need is
                     dedication!
                 </p>
+                
+                <!-- Call-to-action button linking to YouTube channel -->
                 <a class="btn btn-danger btn-lg border"
                     href="https://www.youtube.com/@Khalilamamri00" target="_blank">
                     <i class="bi bi-youtube m-3"></i>Subscribe
                 </a>
-
             </div>
+            
+            <!-- Hero image - hidden on small screens for responsive design -->
             <img class="img-fluid w-50 d-none d-sm-block" src="{{url_for('static', filename='showcase.png')}}" alt="">
         </div>
     </div>
 </section>
-<!-- Social Media -->
+
+<!-- Social Media Section - Community engagement and external links -->
 <section class="bg-primary text-light p-5">
     <div class="container">
         <div class="d-md-flex justify-content-between align-items-center">
+            <!-- Section header -->
             <h3 class="mb-3 text-center">Join Our Community</h3>
+            
+            <!-- Responsive social media navigation -->
             <nav class="navbar navbar-expand-lg navbar-dark">
+                <!-- Mobile toggle button for social media links -->
                 <button class="navbar-toggler border" type="button" data-bs-toggle="collapse"
                     data-bs-target="#socialbtn">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                
+                <!-- Collapsible social media links container -->
                 <div class="collapse navbar-collapse" id="socialbtn">
                     <ul class="navbar-nav">
+                        <!-- GitHub profile link -->
                         <li class="nav-item">
                             <a class="btn btn-dark ms-5 button_width" href="https://github.com/KhalilAmamri"
                                 target="_blank">
@@ -38,6 +54,8 @@
                                 GitHub
                             </a>
                         </li>
+                        
+                        <!-- Facebook profile link -->
                         <li>
                             <a class="btn btn-dark ms-5 button_width" href="#"
                                 target="_blank">
@@ -45,22 +63,26 @@
                                 Facebook
                             </a>
                         </li>
+                        
+                        <!-- Instagram profile link -->
                         <li class="nav-item">
                             <a type="button" class="btn btn-dark ms-5 button_width"
                                 href="#" target="_blank">
                                 <i class="bi bi-instagram"></i>
                                 Instagram
                             </a>
-
                         </li>
+                        
+                        <!-- Twitter profile link -->
                         <li class="nav-item">
                             <a class="btn btn-dark ms-5 button_width" href="#"
                                 target="_blank">
                                 <i class="bi bi-twitter"></i>
                                 Twitter
                             </a>
-
                         </li>
+                        
+                        <!-- TikTok profile link -->
                         <li class="nav-item">
                             <a class="btn btn-dark ms-5 button_width" href="#"
                                 target="_blank">
@@ -72,24 +94,33 @@
                 </div>
             </nav>
         </div>
-
-    </div>
     </div>
 </section>
-<!-- Courses -->
+
+<!-- Courses Section - Display available learning courses -->
 <section class="bg-ligh">
     <div class="container p-5">
+        <!-- Section header with anchor for navigation -->
         <h3 class="text-center text-secondary" id='learn'>Courses</h3>
+        
+        <!-- Responsive grid layout for course cards -->
         <div class="row">
             {% for course in courses %}
+            <!-- Individual course card - responsive across different screen sizes -->
             <div class="col-sm-12 col-md-6 col-lg-4 p-3 d-flex align-items-stretch">
+                <!-- Course link wrapper for entire card -->
                 <a href="{{url_for('course', course_slug=course.slug)}}" class="text-decoration-none">
                     <div class="card bg-dark text-light h-100">
                         <div class="card-body text-center">
+                            <!-- Course icon image -->
                             <img src="{{url_for('static', filename='course_icons/'+course.icon)}}" alt="" class="card-img w-25">
+                            
+                            <!-- Course title -->
                             <h4 class="card-title mb-4">
                                 {{course.title}}
                             </h4>
+                            
+                            <!-- Course description -->
                             <p class="card-text">{{course.description}}</p>
                         </div>
                     </div>
@@ -99,38 +130,49 @@
         </div>
     </div>
 </section>
-<!-- Lessons -->
+
+<!-- Lessons Section - Display latest published lessons -->
 <section class="bg-dark">
     <div class="container p-5">
+        <!-- Section header -->
         <div class="row mb-5 ">
             <div class="col">
                 <h3 class="text-uppercase text-center text-light">latest lessons</h3>
             </div>
         </div>
+        
+        <!-- Responsive grid layout for lesson cards -->
         <div class="row">
             {% for lesson in lessons %}
+            <!-- Individual lesson card - responsive across different screen sizes -->
             <div class="col-sm-12 col-md-6 col-lg-4 pb-5 d-flex align-items-stretch">
                 <div class="card lesson">
+                    <!-- Lesson thumbnail image -->
                     <img src="{{url_for('static', filename='lesson_thumbnails/'+lesson.thumbnail)}}" class="card-img">
+                    
                     <div class="card-body d-flex flex-column">
+                        <!-- Lesson title with link to lesson content -->
                         <h5 class="card-title">
                             <a class="text-decoration-none text-dark" href="{{url_for('lesson', course_slug=lesson.course_name.slug, lesson_slug=lesson.slug)}}">{{lesson.title}}</a>
                         </h5>
+                        
+                        <!-- Course context information -->
                         <p class="card-text mb-0">In:
                             <a class="text-decoration-none" href="{{url_for('course', course_slug=lesson.course_name.slug)}}">{{lesson.course_name.title}}</a>
                         </p>
+                        
+                        <!-- Author information with profile picture and username -->
                         <span><img class="article-img rounded-circle" src="{{url_for('static', filename='user_pics/'+lesson.author.image_file)}}" alt="">By: <a
                                 href="#" class="link">{{lesson.author.username}}</a></span>
+                        
+                        <!-- Lesson publication date -->
                         <span class="text-muted">{{lesson.date_posted.strftime('%Y-%m-%d')}}</span>
-
                     </div>
                 </div>
             </div>
             {% endfor %}
-
         </div>
     </div>
 </section>
-
 
 {% endblock content %}

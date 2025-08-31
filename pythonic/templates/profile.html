@@ -1,15 +1,24 @@
 {% extends "dashboard.html"%}
 {% block profile %}
 
-<!-- Profile -->
+<!-- User Profile Management - Tab content for profile editing interface -->
 <div class="{{'tab-pane show active fade p-3' if active_tab=='profile' else 'tab-pane fade p-3'}}" id="nav-profile"
     role="tabpanel" aria-labelledby="nav-profile-tab">
+    
+    <!-- Profile update form with file upload support -->
     <form action=" " method="POST" enctype="multipart/form-data">
+        <!-- CSRF protection token -->
         {{ profile_form.hidden_tag() }}
+        
+        <!-- Personal Information Section -->
         <fieldset class='form-group'>
             <legend class='border-bottom mb-4'>Personal Information</legend>
+            
+            <!-- Current profile picture display -->
             <img class="rounded-circle user-img" src="{{image_file}}" alt="">
+            
             <div class='form-group'>
+                <!-- Read-only name fields (cannot be changed) -->
                 <div class="row mb-3">
                     <div class="col">
                         <label for="fname" class="form-label">First Name</label>
@@ -20,9 +29,14 @@
                         <input class="form-control" type="text" value="{{ current_user.lname}}" readonly>
                     </div>
                 </div>
+                
+                <!-- Editable username and email fields -->
                 <div class="row mb-3">
+                    <!-- Username field with validation -->
                     <div class="col">
                         {{ profile_form.username.label(class='form-control-label')}}
+                        
+                        <!-- Error handling for username field -->
                         {% if profile_form.username.errors%}
                         {{ profile_form.username(class='form-control form-control-lg is-invalid')}}
                         <div class="invalid-feedback">
@@ -34,8 +48,12 @@
                         {{ profile_form.username(class='form-control form-control')}}
                         {% endif %}
                     </div>
+                    
+                    <!-- Email field with validation -->
                     <div class="col">
                         {{ profile_form.email.label(class='form-control-label')}}
+                        
+                        <!-- Error handling for email field -->
                         {% if profile_form.email.errors%}
                         {{ profile_form.email(class='form-control form-control-lg is-invalid')}}
                         <div class="invalid-feedback">
@@ -48,25 +66,34 @@
                         {% endif %}
                     </div>
                 </div>
-
             </div>
         </fieldset>
+        
+        <!-- Biography and Profile Picture Section -->
         <fieldset>
             <legend class="border-bottom my-3">Biography</legend>
             <div class="form-group">
+                
+                <!-- Biography text area -->
                 <div class="my-3">
                     {{ profile_form.bio.label(class='form-control-label') }}
                     {{ profile_form.bio(class='form-control') }}
                 </div>
+                
+                <!-- Profile picture upload field -->
                 <div class="form-group mb-3">
                     {{ profile_form.picture.label}}
                     {{ profile_form.picture(class='form-control-file')}}
+                    
+                    <!-- Error handling for picture field -->
                     {% if profile_form.picture.errors %}
                     {% for error in profile_form.picture.errors %}
                     <span class="text-danger">{{ error }}</span></br>
                     {% endfor %}
                     {% endif %}
                 </div>
+                
+                <!-- Form submission button -->
                 <div class="col-12">
                     <button class="btn btn-success" type="submit">Update</button>
                 </div>

@@ -1,35 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Meta tags for proper document encoding and responsive design -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Dynamic page title - uses Jinja2 template inheritance -->
     {% if title %}
     <title>{{ title }}</title>
     {% else %}
     <title>Default Title</title>
     {% endif %}
+    
+    <!-- Bootstrap 5.3.7 CSS framework for responsive design and styling -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
       crossorigin="anonymous"
     />
+    
+    <!-- Bootstrap Icons for consistent iconography throughout the application -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
     />
+    
+    <!-- Custom CSS file for application-specific styling -->
     <link
       rel="stylesheet"
       type="text/css"
       href="{{ url_for('static', filename='main.css') }}"
     />
+    
+    <!-- Flask-Modals integration for dynamic modal functionality -->
     {{ modals() }}
   </head>
+  
+  <!-- Body with flexbox layout for sticky footer implementation -->
   <body class="d-flex flex-column min-vh-100">
-    <!-- Navbar -->
+    
+    <!-- Main Navigation Bar - Fixed at top for consistent access -->
     <nav class="navbar navbar-expand-lg bg-dark navbar-dark py-3 fixed-top">
       <div class="container">
+        <!-- Brand/Logo link to home page -->
         <a href="{{ url_for('home') }}" class="navbar-brand">Pythonic</a>
+        
+        <!-- Mobile navigation toggle button for responsive design -->
         <button
           class="navbar-toggler"
           type="button"
@@ -38,12 +55,16 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
+        
+        <!-- Collapsible navigation menu -->
         <div class="collapse navbar-collapse" id="navmenu">
+          <!-- Left-side navigation items -->
           <ul class="navbar-nav">
             <li class="nav-item">
               <a href="{{ url_for('about') }}" class="nav-link">About</a>
             </li>
             <li class="nav-item">
+              <!-- Conditional navigation: Show section link on home page, courses link elsewhere -->
               {% if request.path == '/home' %}
               <a href="#learn" class="nav-link">Start Learning</a>
               {% else %}
@@ -51,10 +72,11 @@
               {% endif %}
             </li>
           </ul>
-          <!-- User Links -->
+          
+          <!-- Right-side user authentication and account management -->
           <ul class="navbar-nav ms-auto">
             {% if current_user.is_authenticated %}
-
+            <!-- Authenticated user dropdown menu -->
             <div class="btn-group">
               <button
                 type="button"
@@ -65,42 +87,46 @@
                 My Account
               </button>
               <ul class="dropdown-menu dropdown-menu-end">
-            <li class="nav-item">
-              <a href="{{ url_for('dashboard') }}" class="dropdown-item">Dashboard</a>
-            </li>
-            <li class="nav-item">
-              <a href="{{ url_for('logout') }}" class="dropdown-item">Logout</a>
-            </li>
+                <li class="nav-item">
+                  <a href="{{ url_for('dashboard') }}" class="dropdown-item">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{ url_for('logout') }}" class="dropdown-item">Logout</a>
+                </li>
               </ul>
             </div>
-
-
-
-
             {% else %}
+            <!-- Guest user authentication links -->
             <li class="nav-item">
               <a href="{{ url_for('register') }}" class="nav-link">Register</a>
             </li>
-
             <li class="nav-item">
               <a href="{{ url_for('login') }}" class="nav-link">Login</a>
             </li>
-
             {% endif %}
           </ul>
         </div>
       </div>
     </nav>
-    {% with messages = get_flashed_messages(with_categories=true) %} {% if
-    messages %} {% for category, message in messages %}
-    <div class="alert alert-{{ category }} text-center">{{ message }}</div>
-    {% endfor %} {% endif %} {% endwith %} {% block content %} {% endblock %}
+    
+    <!-- Flash message display system for user feedback -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} text-center">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    
+    <!-- Main content area - filled by child templates -->
+    {% block content %}
+    {% endblock %}
 
-    <!-- footer -->
-
+    <!-- Footer section with links, social media, and contact information -->
     <footer class="bg-dark mt-auto mt-auto">
       <div class="container p-3">
         <div class="row text-center text-white">
+          <!-- Quick Links section -->
           <div class="col-md-12 col-lg-4 pb-2">
             <h4 class="text-center text-decoration-underline">Quick Links</h4>
             <ul class="nobull pt-3">
@@ -110,6 +136,8 @@
               </li>
             </ul>
           </div>
+          
+          <!-- Social Media Links section -->
           <div class="col-md-12 col-lg-4">
             <h4 class="text-center text-decoration-underline pb-3">
               Social Links
@@ -121,6 +149,8 @@
             <a href="#" class="text-white p-2"><i class="bi-instagram"></i></a>
             <a href="#" class="text-white p-2"><i class="bi-tiktok"></i></a>
           </div>
+          
+          <!-- Contact Information section -->
           <div class="col-md-12 col-lg-4 pb-2">
             <h4 class="text-center text-decoration-underline pb-3">
               Contact Us
@@ -128,6 +158,8 @@
             <p class="lead">omar@oghoneim.com</p>
           </div>
         </div>
+        
+        <!-- Copyright and back-to-top section -->
         <div class="col text-white text-center position-relative">
           <p class="lead font-weight-bold">Copyright &copy; 2022 | Pythonic</p>
           <a href="#" class="position-absolute bottom-0 end-0">
@@ -136,6 +168,8 @@
         </div>
       </div>
     </footer>
+    
+    <!-- Bootstrap JavaScript bundle for interactive components and responsive behavior -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"

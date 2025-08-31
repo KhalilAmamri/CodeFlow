@@ -1,13 +1,23 @@
 {% extends "dashboard.html" %}
 {% block new_course %}
 
+<!-- New Course Creation Form - Tab content for course creation interface -->
 <div class="{{'tab-pane show active fade p-3' if active_tab=='new_course' else 'tab-pane fade p-3'}}" id="nav-newCourse">
+    
+    <!-- Course creation form with file upload support -->
     <form action="{{ url_for('new_course') }}" method="POST" enctype="multipart/form-data">
+        <!-- CSRF protection token -->
         {{ new_course_form.hidden_tag() }}
+        
         <fieldset class="form-group">
+            <!-- Form header and title -->
             <legend class="border-bottom mb-4">Create New Course</legend>
+            
+            <!-- Course Title Field -->
             <div class="mb-3">
                 {{ new_course_form.title.label(class="form-control-label") }}
+                
+                <!-- Error handling for title field -->
                 {% if new_course_form.title.errors %}
                     {{ new_course_form.title(class="form-control is-invalid") }}
                     <div class="invalid-feedback">
@@ -19,8 +29,12 @@
                     {{ new_course_form.title(class="form-control") }}
                 {% endif %}
             </div>
+            
+            <!-- Course Description Field -->
             <div class="mb-3">
                 {{ new_course_form.description.label(class="form-control-label") }}
+                
+                <!-- Error handling for description field -->
                 {% if new_course_form.description.errors %}
                     {{ new_course_form.description(class="form-control is-invalid", rows="3") }}
                     <div class="invalid-feedback">
@@ -32,8 +46,12 @@
                     {{ new_course_form.description(class="form-control", rows="3") }}
                 {% endif %}
             </div>
+            
+            <!-- Course Icon Upload Field -->
             <div class="mb-3">
                 {{ new_course_form.icon.label(class="form-control-label") }}
+                
+                <!-- Error handling for icon field -->
                 {% if new_course_form.icon.errors %}
                     {{ new_course_form.icon(class="form-control is-invalid") }}
                     <div class="invalid-feedback">
@@ -45,14 +63,23 @@
                     {{ new_course_form.icon(class="form-control") }}
                 {% endif %}
             </div>
+            
+            <!-- Course Slug Field (Optional) -->
             <div class="form-group">
                 {{ new_course_form.slug.label(class="form-control-label") }}
                 {{ new_course_form.slug(class="form-control") }}
+                
+                <!-- Help text for slug field -->
                 <small class="form-text text-muted">Leave empty to generate automatically from title</small>
             </div>
+            
+            <!-- Form Action Buttons -->
             <div class="form-group">
                 <div class="col-12">
+                    <!-- Submit button for form submission -->
                     {{ new_course_form.submit(class="btn btn-primary") }}
+                    
+                    <!-- Cancel button to return to dashboard -->
                     <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Cancel</a>
                 </div>
             </div>

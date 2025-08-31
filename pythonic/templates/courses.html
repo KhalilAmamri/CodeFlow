@@ -1,18 +1,30 @@
 {% extends "layout.html"%}
 {% block content %}
+
+<!-- Courses Listing Section - Displays all available courses in a grid layout -->
 <section class="bg-ligh">
     <div class="container p-5">
+        <!-- Section header with anchor for navigation -->
         <h3 class="text-center text-secondary" id='learn'>Courses</h3>
+        
+        <!-- Responsive grid layout for course cards -->
         <div class="row">
             {% for course in courses %}
+            <!-- Individual course card - responsive across different screen sizes -->
             <div class="col-sm-12 col-md-6 col-lg-4 p-3 d-flex align-items-stretch">
+                <!-- Course link wrapper for entire card -->
                 <a href="{{url_for('course', course_slug=course.slug)}}" class="text-decoration-none">
                     <div class="card bg-dark text-light h-100">
                         <div class="card-body text-center">
+                            <!-- Course icon image -->
                             <img src="{{url_for('static', filename='course_icons/'+course.icon)}}" alt="" class="card-img w-25">
+                            
+                            <!-- Course title -->
                             <h4 class="card-title mb-4">
                                 {{course.title}}
                             </h4>
+                            
+                            <!-- Course description -->
                             <p class="card-text">{{course.description}}</p>
                         </div>
                     </div>
@@ -22,4 +34,5 @@
         </div>
     </div>
 </section>
+
 {% endblock content %}

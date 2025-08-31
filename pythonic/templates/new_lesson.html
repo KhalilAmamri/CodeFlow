@@ -1,13 +1,23 @@
 {% extends "dashboard.html" %}
 {% block new_lesson %}
 
+<!-- New Lesson Creation Form - Tab content for lesson creation interface -->
 <div class="{{'tab-pane show active fade p-3' if active_tab=='new_lesson' else 'tab-pane fade p-3'}}" id="nav-newLesson">
+    
+    <!-- Lesson creation form with file upload support -->
     <form action="/dashboard/new_lesson" method="POST" enctype="multipart/form-data">
+        <!-- CSRF protection token -->
         {{ new_lesson_form.hidden_tag() }}
+        
         <fieldset class="form-group">
+            <!-- Form header and title -->
             <legend class="border-bottom mb-4">Create New Lesson</legend>
+            
+            <!-- Course Selection Field -->
             <div class="mb-3">
                 {{ new_lesson_form.course.label(class="form-control-label") }}
+                
+                <!-- Error handling for course field -->
                 {% if new_lesson_form.course.errors %}
                     {{ new_lesson_form.course(class="form-control is-invalid") }}
                     <div class="invalid-feedback">
@@ -18,12 +28,18 @@
                 {% else %}
                     {{ new_lesson_form.course(class="form-select") }}
                 {% endif %}
+                
+                <!-- Link to create new course if needed -->
                 <a href="{{ url_for('new_course') }}" class="btn btn-primary mt-3">
                     New Course?
                 </a>
             </div>
+            
+            <!-- Lesson Title Field -->
             <div class="mb-3">
                 {{ new_lesson_form.title.label(class="form-control-label") }}
+                
+                <!-- Error handling for title field -->
                 {% if new_lesson_form.title.errors %}
                     {{ new_lesson_form.title(class="form-control is-invalid") }}
                     <div class="invalid-feedback">
@@ -35,8 +51,12 @@
                     {{ new_lesson_form.title(class="form-control") }}
                 {% endif %}
             </div>
+            
+            <!-- Lesson Slug Field (Optional) -->
             <div class="mb-3">
                 {{ new_lesson_form.slug.label(class="form-control-label") }}
+                
+                <!-- Error handling for slug field -->
                 {% if new_lesson_form.slug.errors %}
                     {{ new_lesson_form.slug(class="form-control is-invalid") }}
                     <div class="invalid-feedback">
@@ -47,10 +67,16 @@
                 {% else %}
                     {{ new_lesson_form.slug(class="form-control") }}
                 {% endif %}
+                
+                <!-- Help text for slug field -->
                 <small class="form-text text-muted">Leave empty to generate automatically from title</small>
             </div>
+            
+            <!-- Lesson Content Field with Rich Text Editor -->
             <div class="mb-3">
                 {{ new_lesson_form.content.label(class="form-control-label") }}
+                
+                <!-- Error handling for content field -->
                 {% if new_lesson_form.content.errors %}
                     {{ new_lesson_form.content(class="form-control is-invalid") }}
                     <div class="invalid-feedback">
@@ -62,8 +88,12 @@
                     {{ new_lesson_form.content(class="form-control") }}
                 {% endif %}
             </div>
+            
+            <!-- Lesson Thumbnail Upload Field -->
             <div class="mb-3">
                 {{ new_lesson_form.thumbnail.label(class="form-control-label") }}
+                
+                <!-- Error handling for thumbnail field -->
                 {% if new_lesson_form.thumbnail.errors %}
                     {{ new_lesson_form.thumbnail(class="form-control is-invalid") }}
                     <div class="invalid-feedback">
@@ -75,6 +105,8 @@
                     {{ new_lesson_form.thumbnail(class="form-control") }}
                 {% endif %}
             </div>
+            
+            <!-- Form Submission Button -->
             <div class="form-group">
                 <div class="col-12">
                     <button class="btn btn-success" type="submit">Post</button>
@@ -83,6 +115,7 @@
         </fieldset>
     </form>
     
+    <!-- CKEditor Integration for Rich Text Editing -->
     {{ckeditor.load()}}
     {{ckeditor.config(name='new_lesson_form.content')}}
 </div>

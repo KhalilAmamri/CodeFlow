@@ -1,21 +1,28 @@
 {%extends "layout.html"%}
 {% block content%}
-<!-- Tabs -->
+
+<!-- User Dashboard - Main control panel for authenticated users -->
 <div class="container my-5">
+    
+    <!-- Navigation Tabs for different dashboard functions -->
     <nav>
         <div class="nav nav-tabs" id="tablist">
+            
+            <!-- Profile Management Tab -->
             <a class="link" href="/dashboard/profile">
                 <button class="{{'nav-link active' if active_tab=='profile' else 'nav-link'}}" id="nav-profile-tab"
                     data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab"
                     aria-controls="nav-profile" aria-selected="true">Profile</button>
             </a>
 
+            <!-- New Lesson Creation Tab -->
             <a class="link" href="/dashboard/new_lesson">
                 <button class="{{'nav-link active' if active_tab=='new_lesson' else 'nav-link'}}" id="nav-newLesson-tab"
                     data-bs-toggle="tab" data-bs-target="#nav-newLesson" type="button" role="tab"
                     aria-controls="nav-newLesson" aria-selected="true">New Lesson</button>
             </a>
 
+            <!-- New Course Creation Tab -->
             <a class="link" href="/dashboard/new_course">
                 <button class="{{'nav-link active' if active_tab=='new_course' else 'nav-link'}}" id="nav-newCourse-tab"
                     data-bs-toggle="tab" data-bs-target="#nav-newCourse" type="button" role="tab"
@@ -23,15 +30,20 @@
             </a>
         </div>
     </nav>
-    <!-- Tab contents here -->
+    
+    <!-- Tab Content Container - Displays content for selected tab -->
     <div class="tab-content" id="nav-tabContent">
-        <!-- profile -->
+        
+        <!-- Profile Management Content Block -->
         {% block profile %} {% endblock profile%}
-        <!-- New Lesson -->
+        
+        <!-- New Lesson Creation Content Block -->
         {% block new_lesson %} {% endblock new_lesson %}
-        <!-- New Course -->
+        
+        <!-- New Course Creation Content Block -->
         {% block new_course %} {% endblock new_course %}
 
     </div>
 </div>
+
 {% endblock content %}
