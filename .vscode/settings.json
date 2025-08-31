@@ -1,6 +1,20 @@
 {
+    // ============================================================================
+    // VS CODE EDITOR CONFIGURATION FOR PYTHON DEVELOPMENT
+    // ============================================================================
+    // This file contains workspace-specific settings for the Pythonic Flask project
+    // These settings optimize the development experience for Python development
+
+    // Enable automatic code formatting when saving files
+    // This ensures consistent code style across the project
     "editor.formatOnSave": true,
+
+    // Set the default code formatter for all file types
+    // Uses the official Python extension for formatting
     "editor.defaultFormatter": "ms-python.python",
+
+    // Python-specific formatting configuration
+    // Ensures Python files use the correct formatter
     "[python]": {
         "editor.defaultFormatter": "ms-python.python"
     }

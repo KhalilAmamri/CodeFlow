@@ -1,1 +1,8 @@
-Single-database configuration for Flask.
+# ============================================================================
+# FLASK-MIGRATE CONFIGURATION
+# ============================================================================
+# This directory contains the Flask-Migrate configuration and migration scripts
+# for the Pythonic Flask application.
+
+# Single-database configuration for Flask.
+# This setup uses a single SQLite database with Alembic for schema management.

@@ -1,3 +1,13 @@
+# ============================================================================
+# GIT IGNORE CONFIGURATION FOR PYTHONIC FLASK PROJECT
+# ============================================================================
+# This file specifies which files and directories should be ignored by Git
+# It prevents temporary, generated, and sensitive files from being committed
+
+# ============================================================================
+# PYTHON COMPILED AND OPTIMIZED FILES
+# ============================================================================
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -5,6 +15,10 @@ __pycache__/
 
 # C extensions
 *.so
+
+# ============================================================================
+# DISTRIBUTION AND PACKAGING
+# ============================================================================
 
 # Distribution / packaging
 .Python
@@ -34,6 +48,10 @@ MANIFEST
 pip-log.txt
 pip-delete-this-directory.txt
 
+# ============================================================================
+# TESTING AND COVERAGE
+# ============================================================================
+
 # Unit test / coverage reports
 htmlcov/
 .tox/
@@ -49,9 +67,17 @@ coverage.xml
 .pytest_cache/
 cover/
 
+# ============================================================================
+# TRANSLATIONS AND LOCALIZATION
+# ============================================================================
+
 # Translations
 *.mo
 *.pot
+
+# ============================================================================
+# FRAMEWORK-SPECIFIC FILES
+# ============================================================================
 
 # Django stuff:
 *.log
@@ -72,6 +98,10 @@ docs/_build/
 # PyBuilder
 .pybuilder/
 target/
+
+# ============================================================================
+# DEVELOPMENT ENVIRONMENTS AND TOOLS
+# ============================================================================
 
 # Jupyter Notebook
 .ipynb_checkpoints
@@ -102,6 +132,10 @@ celerybeat.pid
 # SageMath parsed files
 *.sage.py
 
+# ============================================================================
+# VIRTUAL ENVIRONMENTS
+# ============================================================================
+
 # Environments
 .env
 .venv
@@ -110,6 +144,10 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+
+# ============================================================================
+# IDE AND EDITOR FILES
+# ============================================================================
 
 # Spyder project settings
 .spyderproject
@@ -140,6 +178,10 @@ cython_debug/
 
 # VSCode
 .vscode/
+
+# ============================================================================
+# OPERATING SYSTEM FILES
+# ============================================================================
 
 # OS generated files
 .DS_Store
