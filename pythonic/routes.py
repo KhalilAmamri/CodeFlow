@@ -10,10 +10,10 @@ from flask_login import login_user, current_user, logout_user, login_required
 from pythonic.models import User, Lesson, Course
 
 # Flask core imports for web framework functionality
-from flask import render_template, url_for, flash, redirect, request, session
+from flask import render_template, url_for, flash, redirect, request, session, abort
 
 # Local form imports for user input validation and processing
-from pythonic.forms import NewCourseForm, NewLessonForm, RegistrationForm, LoginForm, UpdateProfileForm
+from pythonic.forms import NewCourseForm, NewLessonForm, RegistrationForm, LoginForm, UpdateProfileForm, LessonUpdateForm
 
 # Local application imports for database, encryption, and app instance
 from pythonic import app, db, bcrypt
@@ -69,13 +69,23 @@ def fet_previous_next_lesson(lesson_slug, course_slug):
     This function enables lesson-to-lesson navigation within a course,
     providing previous/next buttons for improved user experience.
     """
-    course = lesson.course_name
-    for lsn in course.lessons:
-        if lsn.title == lesson_title:
-            index = course.lessons.index(lsn)
-            previous_lesson = course.lessons[index - 1] if index > 0 else None
-            next_lesson = course.lessons[index + 1] if index < len(course.lessons) - 1 else None
+    # Get the course first
+    course = Course.query.filter_by(slug=course_slug).first_or_404()
+    
+    # Get all lessons in the course ordered by date
+    lessons = Lesson.query.filter_by(course_id=course.id).order_by(Lesson.date_posted.asc()).all()
+    
+    # Find the current lesson index
+    current_index = None
+    for i, lesson in enumerate(lessons):
+        if lesson.slug == lesson_slug:
+            current_index = i
             break
+    
+    # Get previous and next lessons
+    previous_lesson = lessons[current_index - 1] if current_index and current_index > 0 else None
+    next_lesson = lessons[current_index + 1] if current_index is not None and current_index < len(lessons) - 1 else None
+    
     return previous_lesson, next_lesson
 
 
@@ -449,7 +459,7 @@ def lesson(course_slug, lesson_slug):
     previous_lesson = lessons[current_index - 1] if current_index > 0 else None
     next_lesson = lessons[current_index + 1] if current_index < len(lessons) - 1 else None
     
-    return render_template("lesson.html", 
+    return render_template("lesson_view.html", 
                          title=lesson.title, 
                          lesson=lesson, 
                          course=course,
@@ -499,3 +509,84 @@ def courses():
 def user_lessons():
 
     return render_template("user_lessons.html", title="Your Lessons", active_tab="user_lessons")
+
+@app.route("/<string:course_slug>/<string:lesson_slug>/update", methods=["GET", "POST"])
+@login_required
+def update_lesson(course_slug, lesson_slug):
+    lesson = Lesson.query.filter_by(slug=lesson_slug).first_or_404()
+    
+    # Check if user is authorized to edit this lesson
+    if lesson.author != current_user:
+        abort(403)
+    
+    # Get previous and next lessons for navigation
+    previous_lesson, next_lesson = fet_previous_next_lesson(lesson_slug, course_slug)
+    
+    form = LessonUpdateForm()
+    
+    # Populate course dropdown with all available courses
+    courses = Course.query.all()
+    form.course.choices = [(course.id, course.title) for course in courses]
+    
+    # Pre-populate form with current lesson data
+    if request.method == "GET":
+        form.title.data = lesson.title
+        form.content.data = lesson.content
+        form.slug.data = lesson.slug
+        form.course.data = lesson.course_id
+    
+    if form.validate_on_submit():
+        try:
+            # Update lesson data
+            lesson.title = form.title.data
+            lesson.content = form.content.data
+            lesson.slug = form.slug.data if form.slug.data else str(form.title.data).lower().replace(" ", "-")
+            
+            # Update course if changed
+            if form.course.data != lesson.course_id:
+                new_course = Course.query.get(form.course.data)
+                if new_course:
+                    lesson.course_name = new_course
+            
+            # Handle thumbnail update
+            if form.thumbnail.data:
+                picture_file = save_picture(form.thumbnail.data, 'static/lesson_thumbnails')
+                lesson.thumbnail = picture_file
+            
+            db.session.commit()
+            flash("Your lesson has been updated successfully!", "success")
+            
+            # Redirect to user_lessons page after successful update
+            return redirect(url_for("user_lessons"))
+            
+        except Exception as e:
+            db.session.rollback()
+            flash(f"An error occurred while updating the lesson: {str(e)}", "danger")
+            return redirect(url_for("update_lesson", course_slug=course_slug, lesson_slug=lesson_slug))
+    
+    return render_template("update_lesson.html", 
+        title="Update | "+lesson.title,
+        form=form, 
+        lesson=lesson, 
+        previous_lesson=previous_lesson,
+        next_lesson=next_lesson
+    )
+
+
+@app.route("/<string:course_slug>/<string:lesson_slug>/delete", methods=["POST"])
+@login_required
+def delete_lesson(course_slug, lesson_slug):
+    lesson = Lesson.query.filter_by(slug=lesson_slug).first_or_404()
+    
+    # Check if user is authorized to delete this lesson
+    if lesson.author != current_user:
+        abort(403)
+    
+    # Delete the lesson
+    db.session.delete(lesson)
+    db.session.commit()
+    
+    flash("Your lesson has been deleted!", "success")
+    
+    # Redirect back to user_lessons page instead of course page
+    return redirect(url_for("user_lessons"))

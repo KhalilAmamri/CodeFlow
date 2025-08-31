@@ -64,3 +64,49 @@ body::before {
     border-radius: 3px;
     margin-bottom: 20px;
 }
+
+/* Update Lesson Form Specific Styles */
+.update-lesson-container {
+    min-height: calc(100vh - 200px);
+    padding-bottom: 100px;
+}
+
+.update-lesson-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.update-lesson-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.update-lesson-form .form-control,
+.update-lesson-form .form-select {
+    border: 2px solid #e9ecef;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.update-lesson-form .form-control:focus,
+.update-lesson-form .form-select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.update-lesson-form .btn {
+    transition: all 0.3s ease;
+}
+
+.update-lesson-form .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.update-lesson-form .btn-outline-info:hover {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+    color: white;
+}
+
+.update-lesson-form .d-flex.gap-2 {
+    gap: 0.5rem !important;
+}

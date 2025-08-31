@@ -1,0 +1,151 @@
+{% extends "lesson.html" %}
+{% block content %}
+
+<!-- Override the lesson content with update form -->
+<div class="container mt-5 mb-5 update-lesson-container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Lesson Update Form -->
+            <div class="card shadow-sm update-lesson-card">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="text-center mb-0">
+                        <i class="bi bi-pencil-square"></i> Update Lesson
+                    </h2>
+                </div>
+                <div class="card-body p-4">
+                    <form action="" method="POST" enctype="multipart/form-data" class="update-lesson-form">
+                        <!-- CSRF protection token -->
+                        {{ form.hidden_tag() }}
+                        
+                        <fieldset class="form-group">
+                            <!-- Course Selection Field -->
+                            <div class="mb-4">
+                                {{ form.course.label(class="form-control-label fw-bold text-dark") }}
+                                
+                                <!-- Error handling for course field -->
+                                {% if form.course.errors %}
+                                    {{ form.course(class="form-control is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.course.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.course(class="form-select form-select-lg") }}
+                                {% endif %}
+                                
+                            </div>
+                            
+                            <!-- Lesson Title Field -->
+                            <div class="mb-4">
+                                {{ form.title.label(class="form-control-label fw-bold text-dark") }}
+                                
+                                <!-- Error handling for title field -->
+                                {% if form.title.errors %}
+                                    {{ form.title(class="form-control is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.title.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.title(class="form-control form-control-lg") }}
+                                {% endif %}
+                            </div>
+                            
+                            <!-- Lesson Slug Field (Optional) -->
+                            <div class="mb-4">
+                                {{ form.slug.label(class="form-control-label fw-bold text-dark") }}
+                                
+                                <!-- Error handling for slug field -->
+                                {% if form.slug.errors %}
+                                    {{ form.slug(class="form-control is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.slug.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.slug(class="form-control form-control-lg") }}
+                                {% endif %}
+                                
+                                <!-- Help text for slug field -->
+                                <small class="form-text text-muted">Leave empty to generate automatically from title</small>
+                            </div>
+                            
+                            <!-- Lesson Content Field with Rich Text Editor -->
+                            <div class="mb-4">
+                                {{ form.content.label(class="form-control-label fw-bold text-dark") }}
+                                
+                                <!-- Error handling for content field -->
+                                {% if form.content.errors %}
+                                    {{ form.content(class="form-control is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.content.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.content(class="form-control form-control-lg") }}
+                                {% endif %}
+                            </div>
+                            
+                            <!-- Lesson Thumbnail Upload Field -->
+                            <div class="mb-4">
+                                {{ form.thumbnail.label(class="form-control-label fw-bold text-dark") }}
+                                
+                                <!-- Error handling for thumbnail field -->
+                                {% if form.thumbnail.errors %}
+                                    {{ form.thumbnail(class="form-control is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.thumbnail.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.thumbnail(class="form-control form-control-lg") }}
+                                {% endif %}
+                                
+                                <!-- Current thumbnail preview -->
+                                {% if lesson.thumbnail %}
+                                <div class="mt-3">
+                                    <small class="form-text text-muted fw-bold">Current thumbnail:</small>
+                                    <div class="mt-2">
+                                        <img src="{{ url_for('static', filename='lesson_thumbnails/' + lesson.thumbnail) }}" 
+                                             alt="Current thumbnail" class="img-thumbnail" style="max-width: 120px; height: auto;">
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                            
+                            <!-- Form Action Buttons -->
+                            <div class="form-group d-flex justify-content-between align-items-center pt-3">
+                                <div class="d-flex gap-2">
+                                    <a href="{{ url_for('user_lessons') }}" 
+                                       class="btn btn-secondary btn-lg">
+                                        <i class="bi bi-arrow-left"></i> Back to My Lessons
+                                    </a>
+                                    {% if lesson.course_name and lesson.course_name.slug %}
+                                    <a href="{{ url_for('lesson', course_slug=lesson.course_name.slug, lesson_slug=lesson.slug) }}" 
+                                       class="btn btn-outline-info btn-lg">
+                                        <i class="bi bi-eye"></i> View Lesson
+                                    </a>
+                                    {% endif %}
+                                </div>
+                                <button class="btn btn-success btn-lg" type="submit">
+                                    <i class="bi bi-check-circle"></i> Update Lesson
+                                </button>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CKEditor Integration for Rich Text Editing -->
+{{ckeditor.load()}}
+{{ckeditor.config(name='form.content')}}
+
+{% endblock content %}
