@@ -31,7 +31,7 @@ def fet_previous_next_lesson(lesson_slug, course_slug):
             break
     return previous_lesson, next_lesson
 
-@app.route("/")
+@app.route("/home")
 def home():
     lessons = Lesson.query.order_by(Lesson.date_posted.desc()).all()
     courses = Course.query.order_by(Course.date_posted.desc()).all()
