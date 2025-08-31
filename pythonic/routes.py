@@ -219,8 +219,8 @@ def lesson(course_slug, lesson_slug):
                          course=course,
                          previous_lesson=previous_lesson,
                          next_lesson=next_lesson)
-@app.route("/course/<string:course_slug>")
+@app.route("/<string:course_slug>")
 def course(course_slug):
     course = Course.query.filter_by(slug=course_slug).first_or_404()
     lessons = Lesson.query.filter_by(course_id=course.id).order_by(Lesson.date_posted.asc()).all()
-    return render_template("course.html", title=course.title, course=course, lessons=lessons)
+    return render_template("course.html", title=course.title, course=course)
