@@ -1,0 +1,41 @@
+{% extends "dashboard.html" %}
+{% block lessons %}
+
+<div class="{{'tab-pane fade show active p-3' if active_tab=='user_lessons' else 'tab-pane fade p-3'}}" id="nav-user_lessons" role="tabpanel" aria-labelledby="nav-user_lessons-tab"></div>
+
+<section>
+    <div class="container p-5">
+        <!-- Section spacing for visual separation -->
+        <div class="row mb-5 ">
+        </div>
+        
+        <!-- Responsive grid layout for lesson cards -->
+        <div class="row">
+            {% for lesson in current_user.lessons %}
+            <!-- Individual lesson card - responsive across different screen sizes -->
+            <div class="col-sm-12 col-md-6 col-lg-4 pb-5 d-flex align-items-stretch">
+                <div class="card lesson">
+                    <!-- Lesson thumbnail image -->
+                    <img src="{{url_for('static', filename='lesson_thumbnails/'+lesson.thumbnail)}}" class="card-img">
+                    
+                    <div class="card-body d-flex flex-column">
+                        <!-- Lesson title with link to lesson content -->
+                        <h5 class="card-title">
+                            <a class="text-decoration-none text-dark" href="{{url_for('lesson', course_slug=lesson.course_name.slug, lesson_slug=lesson.slug)}}">{{lesson.title}}</a>
+                        </h5>
+                        
+                        <!-- Author information with profile picture and username -->
+                        <span><img class="article-img rounded-circle" src="{{url_for('static', filename='user_pics/'+lesson.author.image_file)}}" alt="">By: <a
+                                href="#" class="link">{{lesson.author.username}}</a></span>
+                        
+                        <!-- Lesson publication date -->
+                        <span class="text-muted">{{lesson.date_posted.strftime('%Y-%m-%d')}}</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% endblock lessons %}

@@ -493,3 +493,9 @@ def courses():
     """
     courses = Course.query.order_by(Course.date_posted.desc()).all()
     return render_template("courses.html", title="Courses", courses=courses)
+
+@app.route("/dashboard/user_lessons", methods=["GET", "POST"])
+@login_required
+def user_lessons():
+
+    return render_template("user_lessons.html", title="Your Lessons", active_tab="user_lessons")

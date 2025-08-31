@@ -28,6 +28,13 @@
                     data-bs-toggle="tab" data-bs-target="#nav-newCourse" type="button" role="tab"
                     aria-controls="nav-newCourse" aria-selected="true">New Course</button>
             </a>
+            <!-- User Lessons-->
+            <a class="link" href="/dashboard/user_lessons">
+                <button class="{{'nav-link active' if active_tab=='lessons' else 'nav-link'}}" id="nav-lessons-tab"
+                    data-bs-toggle="tab" data-bs-target="#nav-lessons" type="button" role="tab"
+                    aria-controls="nav-lessons" aria-selected="true"> Your Lessons</button>
+            </a>
+
         </div>
     </nav>
     
@@ -42,6 +49,8 @@
         
         <!-- New Course Creation Content Block -->
         {% block new_course %} {% endblock new_course %}
+        <!-- User Lessons-->
+        {% block lessons %} {% endblock lessons %}
 
     </div>
 </div>
