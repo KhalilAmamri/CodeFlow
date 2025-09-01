@@ -55,6 +55,27 @@ def save_picture(form_picture, path, output_size=None):
     return picture_name
 
 
+def delete_picture(picture_name, path):
+    """
+    Delete an image file from the specified directory.
+    
+    Args:
+        picture_name (str): Name of the file to delete
+        path (str): Directory path where the file is located
+    
+    This function safely removes old image files when they are replaced,
+    helping to manage storage space and prevent file accumulation.
+    """
+    if picture_name and picture_name not in ['default_thumbnail.jpg', 'default_icon.png']:
+        try:
+            picture_path = os.path.join(app.root_path, path, picture_name)
+            if os.path.exists(picture_path):
+                os.remove(picture_path)
+        except Exception as e:
+            # Log error but don't crash the application
+            print(f"Error deleting picture {picture_name}: {e}")
+
+
 def fet_previous_next_lesson(lesson_slug, course_slug):
     """
     Retrieve previous and next lessons within a course for navigation.
@@ -276,6 +297,11 @@ def profile():
     if profile_form.validate_on_submit():
         # Handle profile picture upload with resizing to 125x125 pixels
         if profile_form.picture.data:
+            # Delete old profile picture if it exists and is not default
+            if current_user.image_file and current_user.image_file != 'default.jpg':
+                delete_picture(current_user.image_file, 'static/user_pics')
+            
+            # Save new profile picture
             picture_file = save_picture(profile_form.picture.data, 'static/user_pics', (125, 125))
             current_user.image_file = picture_file
         
@@ -550,6 +576,11 @@ def update_lesson(course_slug, lesson_slug):
             
             # Handle thumbnail update
             if form.thumbnail.data:
+                # Delete old thumbnail if it exists and is not default
+                if lesson.thumbnail and lesson.thumbnail != 'default_thumbnail.jpg':
+                    delete_picture(lesson.thumbnail, 'static/lesson_thumbnails')
+                
+                # Save new thumbnail
                 picture_file = save_picture(form.thumbnail.data, 'static/lesson_thumbnails')
                 lesson.thumbnail = picture_file
             
@@ -582,6 +613,10 @@ def delete_lesson(course_slug, lesson_slug):
     if lesson.author != current_user:
         abort(403)
     
+    # Delete the lesson thumbnail if it exists and is not default
+    if lesson.thumbnail and lesson.thumbnail != 'default_thumbnail.jpg':
+        delete_picture(lesson.thumbnail, 'static/lesson_thumbnails')
+    
     # Delete the lesson
     db.session.delete(lesson)
     db.session.commit()
@@ -590,3 +625,14 @@ def delete_lesson(course_slug, lesson_slug):
     
     # Redirect back to user_lessons page instead of course page
     return redirect(url_for("user_lessons"))
+
+
+def delete_course_picture(course):
+    """
+    Helper function to delete course icon when course is deleted or icon is updated.
+    
+    Args:
+        course: Course object containing icon information
+    """
+    if course.icon and course.icon != 'default_icon.png':
+        delete_picture(course.icon, 'static/course_icons')
