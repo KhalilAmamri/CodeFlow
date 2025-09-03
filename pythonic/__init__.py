@@ -49,6 +49,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///pythonic.db'
 # This allows automatic detection of model changes
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
+# Limit upload size to 8 MB for editor image uploads
+app.config['MAX_CONTENT_LENGTH'] = 8 * 1024 * 1024
+
 
 # ============================================================================
 # EXTENSION INITIALIZATION AND CONFIGURATION
