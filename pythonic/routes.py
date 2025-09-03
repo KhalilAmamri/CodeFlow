@@ -10,7 +10,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 from pythonic.models import User, Lesson, Course
 
 # Flask core imports for web framework functionality
-from flask import render_template, url_for, flash, redirect, request, session, abort
+from flask import render_template, url_for, flash, redirect, request, session, abort, jsonify
 
 # Local form imports for user input validation and processing
 from pythonic.forms import NewCourseForm, NewLessonForm, RegistrationForm, LoginForm, UpdateProfileForm, LessonUpdateForm
@@ -53,6 +53,37 @@ def save_picture(form_picture, path, output_size=None):
     i.save(picture_path)
     
     return picture_name
+
+
+# TinyMCE image upload endpoint
+ALLOWED_IMAGE_EXTS = {'.jpg', '.jpeg', '.png', '.gif', '.webp'}
+
+@app.route('/upload-image', methods=['POST'])
+@login_required
+def upload_image():
+    image = request.files.get('file')  # TinyMCE sends field name 'file'
+    if not image or not image.filename:
+        return jsonify({'error': 'No file'}), 400
+
+    # Validate extension
+    _, ext = os.path.splitext(image.filename)
+    ext = ext.lower()
+    if ext not in ALLOWED_IMAGE_EXTS:
+        return jsonify({'error': 'Invalid type'}), 400
+
+    # Ensure upload directory exists
+    upload_dir = os.path.join(app.root_path, 'static', 'uploads')
+    os.makedirs(upload_dir, exist_ok=True)
+
+    # Generate safe unique name and save
+    random_hex = secrets.token_hex(16)
+    filename = f"{random_hex}{ext}"
+    save_path = os.path.join(upload_dir, filename)
+    image.save(save_path)
+
+    file_url = url_for('static', filename=f'uploads/{filename}')
+    # TinyMCE expects { location: 'url' }
+    return jsonify({'location': file_url})
 
 
 def delete_picture(picture_name, path):

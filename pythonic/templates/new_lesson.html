@@ -127,7 +127,14 @@
         toolbar: 'undo redo | styles | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media table | codesample | fullscreen | code',
         extended_valid_elements: 'iframe[src|frameborder|allowfullscreen|allow|width|height|style]',
         media_live_embeds: true,
-        block_formats: 'Paragraph=p; Heading 1=h1; Heading 2=h2; Heading 3=h3; Preformatted=pre'
+        block_formats: 'Paragraph=p; Heading 1=h1; Heading 2=h2; Heading 3=h3; Preformatted=pre',
+
+        // Image upload config
+        automatic_uploads: true,
+        images_upload_url: '/upload-image',
+        file_picker_types: 'image',
+        images_file_types: 'jpg,jpeg,png,gif,webp',
+        paste_data_images: true
       });
     </script>
 </div>
