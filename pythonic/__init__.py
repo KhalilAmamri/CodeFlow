@@ -20,9 +20,6 @@ from flask_login import LoginManager
 # Database migration management for schema evolution
 from flask_migrate import Migrate
 
-# Rich text editor integration for content creation
-from flask_ckeditor import CKEditor
-
 # Modal dialog functionality for enhanced user interface
 from flask_modals import Modal
 
@@ -72,10 +69,6 @@ migrate = Migrate(app, db)
 # Initialize Flask-Login for user authentication
 # Manages user sessions and authentication state
 login_manager = LoginManager(app)
-
-# Initialize CKEditor for rich text editing
-# Provides WYSIWYG content editing capabilities
-ckeditor = CKEditor(app)
 
 # Initialize Flask-Modals for dynamic modal dialogs
 # Enhances user interface with popup functionality

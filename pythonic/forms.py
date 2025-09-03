@@ -22,9 +22,6 @@ from wtforms.validators import DataRequired, Email, Length, Regexp, EqualTo, Val
 # Local model imports for custom validation logic
 from pythonic.models import Course, User
 
-# CKEditor integration for rich text content editing
-from flask_ckeditor import CKEditorField
-
 
 class RegistrationForm(FlaskForm):
     """
@@ -78,7 +75,7 @@ class RegistrationForm(FlaskForm):
         """
         user = User.query.filter_by(username=username.data).first()
         if user:
-            raise ValidationError('That username is already taken. Please choose a different one.')
+            raise ValidationError('That username is taken. Please choose a different one.')
     
     def validate_email(self, email):
         """
@@ -211,7 +208,7 @@ class NewLessonForm(FlaskForm):
     
     Fields:
         title: Lesson title with required validation
-        content: Rich text content using CKEditor integration
+        content: Rich text content using editor integration
         slug: Optional URL-friendly identifier (auto-generated if empty)
         course: Course selection dropdown populated from database
         thumbnail: Optional lesson preview image
@@ -220,7 +217,7 @@ class NewLessonForm(FlaskForm):
     
     # Content fields with validation
     title = StringField('Title', validators=[DataRequired()])
-    content = CKEditorField('Content', validators=[DataRequired()])
+    content = TextAreaField('Content', validators=[DataRequired()])
     
     # Optional slug field for custom URL generation
     slug = StringField('Slug (optional)', validators=[Optional()])

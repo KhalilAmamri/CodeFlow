@@ -106,8 +106,9 @@ target/
 # Jupyter Notebook
 .ipynb_checkpoints
 
-# CKEditor
-pythonic/static/ckeditor/
+# TinyMCE
+pythonic/static/tinymce/
+
 
 
 # IPython

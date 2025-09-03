@@ -78,14 +78,14 @@
                 
                 <!-- Error handling for content field -->
                 {% if new_lesson_form.content.errors %}
-                    {{ new_lesson_form.content(class="form-control is-invalid") }}
+                    {{ new_lesson_form.content(class="form-control is-invalid", id="content") }}
                     <div class="invalid-feedback">
                         {% for error in new_lesson_form.content.errors %}
                             <span>{{ error }}</span>
                         {% endfor %}
                     </div>
                 {% else %}
-                    {{ new_lesson_form.content(class="form-control") }}
+                    {{ new_lesson_form.content(class="form-control", id="content") }}
                 {% endif %}
             </div>
             
@@ -115,9 +115,21 @@
         </fieldset>
     </form>
     
-    <!-- CKEditor Integration for Rich Text Editing -->
-    {{ckeditor.load()}}
-    {{ckeditor.config(name='new_lesson_form.content')}}
+    <!-- TinyMCE (local) -->
+    <script src="{{ url_for('static', filename='tinymce/js/tinymce/tinymce.min.js') }}"></script>
+    <script>
+      tinymce.init({
+        selector: '#content',
+        height: 400,
+        menubar: false,
+        license_key: 'gpl',
+        plugins: 'link image media table lists code codesample fullscreen',
+        toolbar: 'undo redo | styles | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media table | codesample | fullscreen | code',
+        extended_valid_elements: 'iframe[src|frameborder|allowfullscreen|allow|width|height|style]',
+        media_live_embeds: true,
+        block_formats: 'Paragraph=p; Heading 1=h1; Heading 2=h2; Heading 3=h3; Preformatted=pre'
+      });
+    </script>
 </div>
 
 {% endblock new_lesson %}
