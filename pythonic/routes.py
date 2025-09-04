@@ -167,7 +167,7 @@ def home():
     This route fetches the most recent lessons and courses from the database,
     ordered by publication date, and displays them on the main landing page.
     """
-    lessons = Lesson.query.order_by(Lesson.date_posted.desc()).all()
+    lessons = Lesson.query.order_by(Lesson.date_posted.desc()).paginate(page=1, per_page=6)
     courses = Course.query.order_by(Course.date_posted.desc()).paginate(page=1, per_page=6)
     return render_template("home.html", lessons=lessons, courses=courses)
 
