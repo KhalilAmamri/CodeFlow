@@ -36,8 +36,11 @@
                 <ul class="pagination" style="display: flex; justify-content: flex-end">
                     {% for page in courses.iter_pages() %}
                         {% if page %}
-                            <li class="page-item">
-                                <a class="page-link" href="{{url_for('courses', page=page)}}">{{page}}</a></li>
+                            {% if page == courses.page %}
+                                <li class="page-item active"><a class="page-link" href="{{url_for('courses', page=page)}}">{{page}}</a></li>
+                            {% else %}
+                                <li class="page-item"><a class="page-link" href="{{url_for('courses', page=page)}}">{{page}}</a></li>
+                            {% endif %}
                         {% else %}
                             <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
                         {% endif %}
