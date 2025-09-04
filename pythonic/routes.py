@@ -551,14 +551,16 @@ def course(course_slug):
 def courses():
     """
     Courses listing route - displays all available courses.
-    
+    Args:
+        page (int): Page number for pagination
     Returns:
         str: Rendered courses.html template with all courses data.
     
     This route provides a comprehensive view of all courses in the system,
     ordered by publication date to show newest content first.
     """
-    courses = Course.query.order_by(Course.date_posted.desc()).all()
+    page = request.args.get('page', 1, type=int)
+    courses = Course.query.order_by(Course.date_posted.desc()).paginate(page=page, per_page=6)
     return render_template("courses.html", title="Courses", courses=courses)
 
 @app.route("/dashboard/user_lessons", methods=["GET", "POST"])
