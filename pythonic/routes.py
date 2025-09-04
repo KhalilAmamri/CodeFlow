@@ -527,11 +527,9 @@ def lesson(course_slug, lesson_slug):
 @app.route("/<string:course_slug>")
 def course(course_slug):
     """
-    Individual course display route - shows course details and lessons.
-    
+    Course display route - shows course details and lessons.
     Args:
         course_slug (str): URL identifier for the course
-    
     Returns:
         str: Rendered course.html template with course and lessons data.
     
@@ -540,11 +538,16 @@ def course(course_slug):
     """
     # Retrieve course with 404 handling for invalid slug
     course = Course.query.filter_by(slug=course_slug).first_or_404()
-    
     # Get all lessons in course ordered by publication date
-    lessons = Lesson.query.filter_by(course_id=course.id).order_by(Lesson.date_posted.asc()).all()
+    page = request.args.get('page', 1, type=int)
+    lessons = Lesson.query.filter_by(course_id=course.id).order_by(Lesson.date_posted.desc()).paginate(page=page, per_page=6)
     
-    return render_template("course.html", title=course.title, course=course, lessons=lessons)
+    return render_template("course.html", 
+        title=course.title, 
+        course=course, 
+        lessons=lessons, 
+        page=page
+    )
 
 
 @app.route("/courses")
