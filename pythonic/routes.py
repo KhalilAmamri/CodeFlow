@@ -168,7 +168,7 @@ def home():
     ordered by publication date, and displays them on the main landing page.
     """
     lessons = Lesson.query.order_by(Lesson.date_posted.desc()).all()
-    courses = Course.query.order_by(Course.date_posted.desc()).all()
+    courses = Course.query.order_by(Course.date_posted.desc()).paginate(page=1, per_page=6)
     return render_template("home.html", lessons=lessons, courses=courses)
 
 
