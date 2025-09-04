@@ -34,7 +34,7 @@
             <!-- Pagination -->
              <nav class="mt-5" aria-label="...">
                 <ul class="pagination" style="display: flex; justify-content: flex-end">
-                    {% for page in courses.iter_pages() %}
+                    {% for page in courses.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
                         {% if page %}
                             {% if page == courses.page %}
                                 <li class="page-item active"><a class="page-link" href="{{url_for('courses', page=page)}}">{{page}}</a></li>
