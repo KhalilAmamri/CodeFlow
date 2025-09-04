@@ -5,7 +5,7 @@
 <div class="{{'tab-pane show active fade p-3' if active_tab=='new_lesson' else 'tab-pane fade p-3'}}" id="nav-newLesson">
     
     <!-- Lesson creation form with file upload support -->
-    <form action="/dashboard/new_lesson" method="POST" enctype="multipart/form-data">
+    <form action="{{ url_for('new_lesson') }}" method="POST" enctype="multipart/form-data">
         <!-- CSRF protection token -->
         {{ new_lesson_form.hidden_tag() }}
         
@@ -134,7 +134,22 @@
         images_upload_url: '/upload-image',
         file_picker_types: 'image',
         images_file_types: 'jpg,jpeg,png,gif,webp',
-        paste_data_images: true
+        paste_data_images: true,
+
+        // Ensure editor content syncs to textarea
+        setup: function (ed) {
+          ed.on('change keyup', function () { tinymce.triggerSave(); });
+        }
+      });
+
+      // Ensure save before submit
+      document.addEventListener('DOMContentLoaded', function(){
+        var form = document.querySelector('form[action="/dashboard/new_lesson"]');
+        if (form) {
+          form.addEventListener('submit', function(){
+            if (window.tinymce) { tinymce.triggerSave(); }
+          });
+        }
       });
     </script>
 </div>
