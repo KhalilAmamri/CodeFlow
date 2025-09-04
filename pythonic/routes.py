@@ -672,3 +672,18 @@ def delete_course_picture(course):
     """
     if course.icon and course.icon != 'default_icon.png':
         delete_picture(course.icon, 'static/course_icons')
+@app.route("/author/<string:username>", methods=["GET"])
+def author(username):
+    """
+    Author display route - shows lessons created by a specific author.
+    Args:
+        username (str): Username of the author
+    Returns:
+        str: Rendered author.html template with author's lessons data.
+    
+    This route displays all lessons created by a specific author, ordered by publication date.
+    """
+    user = User.query.filter_by(username=username).first_or_404()
+    page = request.args.get('page', 1, type=int)
+    lessons = Lesson.query.filter_by(author=user).order_by(Lesson.date_posted.desc()).paginate(page=page, per_page=6)
+    return render_template("author.html", title=user.username, user=user, lessons=lessons, page=page)

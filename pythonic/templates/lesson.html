@@ -68,7 +68,7 @@
                 <span>
                     <!-- Author profile picture -->
                     <img class="article-img" src="{{url_for('static',filename='user_pics/'+lesson.author.image_file)}}" alt="">
-                    By: <a href="#" class="link">{{lesson.author.username}}</a>
+                    By: <a href="{{url_for('author', username=lesson.author.username)}}" class="link">{{lesson.author.username}}</a>
                     
                     <!-- Lesson publication date -->
                     <span class="text-muted">On: {{lesson.date_posted.strftime('%Y-%m-%d')}}</span>
