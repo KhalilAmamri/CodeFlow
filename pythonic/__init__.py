@@ -23,6 +23,11 @@ from flask_migrate import Migrate
 # Modal dialog functionality for enhanced user interface
 from flask_modals import Modal
 
+# Email functionality for password reset
+from flask_mail import Mail
+
+# Environment variable for email credentials
+import os
 
 # ============================================================================
 # FLASK APPLICATION INSTANCE CREATION
@@ -89,6 +94,14 @@ login_manager.login_view = 'login'
 # Set the message category for login-related flash messages
 # Provides consistent styling for authentication feedback
 login_manager.login_message_category = 'info'
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = os.getenv('EMAIL_USER')
+app.config['MAIL_PASSWORD'] = os.getenv('EMAIL_PASS')
+app.config['MAIL_DEFAULT_SENDER'] = os.getenv('EMAIL_USER')
+mail = Mail(app)
+
 
 
 # ============================================================================

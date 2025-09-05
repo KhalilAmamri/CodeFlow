@@ -2,10 +2,12 @@
 from datetime import datetime
 
 # Local application imports for database and login management
-from pythonic import db, login_manager
+from pythonic import db, login_manager, app
 
 # Flask-Login import for user authentication mixin
 from flask_login import UserMixin
+
+from itsdangerous import URLSafeSerializer as Serializer
 
 
 @login_manager.user_loader
@@ -64,6 +66,25 @@ class User(db.Model, UserMixin):
     # Relationship to lessons created by this user
     lessons = db.relationship('Lesson', backref='author', lazy=True)
     
+    def get_reset_token(self):
+        """
+        Generate a reset token for the user.
+        """
+        s = Serializer(app.config['SECRET_KEY'], salt='password-reset-salt')
+        return s.dumps({'user_id': self.id})
+
+    @staticmethod
+    def verify_reset_token(token, age=3600):
+        """
+        Verify the reset token and return the user if it is valid.
+        """
+        s = Serializer(app.config['SECRET_KEY'], salt='password-reset-salt')
+        try:
+            user_id = s.loads(token, max_age=age)['user_id']
+            return User.query.get(user_id)
+        except:
+            return None
+
     def __repr__(self):
         """
         String representation of User object for debugging and logging.

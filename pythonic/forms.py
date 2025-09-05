@@ -286,3 +286,20 @@ class NewCourseForm(FlaskForm):
 class LessonUpdateForm(NewLessonForm):
     thumbnail = FileField('Thumbnail', validators=[FileAllowed(['jpg', 'png'])])
     submit = SubmitField('Update Lesson')
+
+
+class RequestResetForm(FlaskForm):
+    """
+    Request reset password form for users to request a password reset.
+    """
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    submit = SubmitField('Request Password Reset')
+
+class ResetPasswordForm(FlaskForm):
+    """
+    Reset password form for users to reset their password.
+    """
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=6, max=35), Regexp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$', 
+               message="Password must contain at least one letter and one number")])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Reset Password')

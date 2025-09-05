@@ -1,37 +1,20 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<!-- User Login Form - Authentication interface for existing users -->
+<!-- Password Reset Form -->
 <div class="container mt-5 pt-5">
     <div class="container" mt-auto align-items-center>
         
-        <!-- Login form for user authentication -->
+        <!-- Password Reset Form -->
         <form action="" method="POST">
             <!-- CSRF protection token for form security -->
             {{ form.hidden_tag() }}
 
             <fieldset class="form-group">
                 <!-- Form header and title -->
-                <legend class="border-bottom mb-4">Login</legend>
+                <legend class="border-bottom mb-4">Reset Password</legend>
                 
-                <!-- Email Field for user identification -->
-                <div class="form-group">
-                    {{ form.email.label(class='form-control-label') }}
-                    
-                    <!-- Error handling for email field -->
-                    {% if form.email.errors %}
-                    {{ form.email(class='form-control form-control-lg is-invalid') }}
-                    <div class="invalid-feedback">
-                        {% for error in form.email.errors %}
-                        <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                    {% else %}
-                    {{ form.email(class='form-control form-control-lg') }}
-                    {% endif %}
-                </div>
-                
-                <!-- Password Field for authentication -->
+                <!-- New Password Field -->
                 <div class="form-group">
                     {{ form.password.label(class='form-control-label') }}
                     
@@ -48,22 +31,33 @@
                     {% endif %}
                 </div>
                 
+                <!-- Confirm Password Field -->
+                <div class="form-group">
+                    {{ form.confirm_password.label(class='form-control-label') }}
+                    
+                    <!-- Error handling for confirm password field -->
+                    {% if form.confirm_password.errors %}
+                    {{ form.confirm_password(class='form-control form-control-lg is-invalid') }}
+                    <div class="invalid-feedback">
+                        {% for error in form.confirm_password.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.confirm_password(class='form-control form-control-lg') }}
+                    {% endif %}
+                </div>
+                
                 <!-- Form submission button -->
                 <div class="form-group my-3">
                     {{ form.submit(class='btn btn-outline-info') }}
-                </div>
-                
-                <!-- Remember Me checkbox for persistent sessions -->
-                <div class="form-check">
-                    {{ form.remember(class='form-check-input') }}
-                    {{ form.remember.label(class='form-check-label') }}
                 </div>
             </fieldset>
         </form>
         
         <!-- Additional user assistance links -->
         <small class="text-muted ml-2">
-            <a class="link" href="{{ url_for('reset_password') }}">Forgot Password?</a>
+            <a class="link" href="{{ url_for('login') }}">Back to Login</a>
         </small>
         
         <!-- Registration link for new users -->

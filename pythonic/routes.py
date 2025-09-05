@@ -9,14 +9,17 @@ from flask_login import login_user, current_user, logout_user, login_required
 # Local model imports for database entities
 from pythonic.models import User, Lesson, Course
 
+# Flask-Mail imports for email functionality
+from flask_mail import Message
+
 # Flask core imports for web framework functionality
 from flask import render_template, url_for, flash, redirect, request, session, abort, jsonify
 
 # Local form imports for user input validation and processing
-from pythonic.forms import NewCourseForm, NewLessonForm, RegistrationForm, LoginForm, UpdateProfileForm, LessonUpdateForm
+from pythonic.forms import NewCourseForm, NewLessonForm, RegistrationForm, LoginForm, UpdateProfileForm, LessonUpdateForm, RequestResetForm, ResetPasswordForm
 
 # Local application imports for database, encryption, and app instance
-from pythonic import app, db, bcrypt
+from pythonic import app, db, bcrypt, mail
 
 # Flask-Modals imports for dynamic modal functionality
 from flask_modals import Modal, render_template_modal
@@ -140,7 +143,15 @@ def fet_previous_next_lesson(lesson_slug, course_slug):
     
     return previous_lesson, next_lesson
 
-
+def send_reset_email(user):
+    token = user.get_reset_token()
+    sender_email = os.getenv('EMAIL_USER') or 'noreply@pythonic.com'
+    msg = Message('Password Reset Request', sender=sender_email, recipients=[user.email])
+    msg.body = f'''To reset your password, visit the following link:
+    {url_for('reset_token', token=token, _external=True)}
+    If you did not make this request then simply ignore this email and no changes will be made.
+    '''
+    mail.send(msg)
 # ============================================================================
 # MAIN APPLICATION ROUTES
 # ============================================================================
@@ -687,3 +698,32 @@ def author(username):
     page = request.args.get('page', 1, type=int)
     lessons = Lesson.query.filter_by(author=user).order_by(Lesson.date_posted.desc()).paginate(page=page, per_page=6)
     return render_template("author.html", title=user.username, user=user, lessons=lessons, page=page)
+
+@app.route("/reset_password", methods=["GET", "POST"])
+def reset_password():
+    if current_user.is_authenticated:
+        return redirect(url_for("home"))
+    form = RequestResetForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        send_reset_email(user)
+        flash('An email has been sent with instructions to reset your password.', 'info')
+        return redirect(url_for('login'))
+    return render_template('reset_password.html', title='Reset Password', form=form)
+
+@app.route("/reset_password/<string:token>", methods=["GET", "POST"])
+def reset_token(token):
+    if current_user.is_authenticated:
+        return redirect(url_for("home"))
+    user = User.verify_reset_token(token)
+    if user is None:
+        flash('Invalid or expired token', 'warning')
+        return redirect(url_for('reset_password'))
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user.password = hashed_password
+        db.session.commit()
+        flash('Your password has been updated! You are now able to log in', 'success')
+        return redirect(url_for('login'))
+    return render_template('reset_token.html', title='Reset Password', form=form)
