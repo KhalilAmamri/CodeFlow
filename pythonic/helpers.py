@@ -8,7 +8,7 @@ import secrets
 from PIL import Image
 
 # Flask application context
-from pythonic import app
+from flask import current_app
 
 
 def save_picture(form_picture, path, output_size=None):
@@ -33,7 +33,7 @@ def save_picture(form_picture, path, output_size=None):
     picture_name = random_hex + f_ext
     
     # Construct full file path within application directory
-    picture_path = os.path.join(app.root_path, path, picture_name)
+    picture_path = os.path.join(current_app.root_path, path, picture_name)
     
     # Open and process image with PIL
     i = Image.open(form_picture)

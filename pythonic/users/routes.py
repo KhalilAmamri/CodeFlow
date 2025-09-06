@@ -103,7 +103,7 @@ def login():
             # Handle post-login redirect to originally requested page
             next_page = request.args.get('next')
             flash("Login successful!", "success")
-            return redirect(next_page) if next_page else redirect(url_for("home"))
+            return redirect(next_page) if next_page else redirect(url_for("main.home"))
         else:
             flash("Login Unsuccessful. Please check email and password", "danger")
             
@@ -124,7 +124,7 @@ def logout():
     if current_user.is_authenticated:
         logout_user()
         flash("You have been logged out.", "info")
-    return redirect(url_for("home"))
+    return redirect(url_for("main.home"))
 
 
 # ============================================================================

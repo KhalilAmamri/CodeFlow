@@ -1,5 +1,5 @@
 import os
-from pythonic import app
+from flask import current_app
 
 # Import models for database queries
 from pythonic.models import Course, Lesson
@@ -18,7 +18,7 @@ def delete_picture(picture_name, path):
     """
     if picture_name and picture_name not in ['default_thumbnail.jpg', 'default_icon.png']:
         try:
-            picture_path = os.path.join(app.root_path, path, picture_name)
+            picture_path = os.path.join(current_app.root_path, path, picture_name)
             if os.path.exists(picture_path):
                 os.remove(picture_path)
         except Exception as e:

@@ -13,7 +13,7 @@ from pythonic.models import Lesson, Course
 from flask import render_template, url_for, request, jsonify
 
 
-from pythonic import app
+from flask import current_app
 
 
 main = Blueprint('main', __name__)
@@ -33,7 +33,7 @@ def upload_image():
         return jsonify({'error': 'Invalid type'}), 400
 
     # Ensure upload directory exists
-    upload_dir = os.path.join(app.root_path, 'static', 'uploads')
+    upload_dir = os.path.join(current_app.root_path, 'static', 'uploads')
     os.makedirs(upload_dir, exist_ok=True)
 
     # Generate safe unique name and save
@@ -48,7 +48,7 @@ def upload_image():
 
     
 @main.route("/")
-@app.route("/home")
+@main.route("/home")
 def home():
     """
     Home page route - displays latest lessons and courses.

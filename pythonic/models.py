@@ -2,7 +2,8 @@
 from datetime import datetime
 
 # Local application imports for database and login management
-from pythonic import db, login_manager, app
+from pythonic import db, login_manager
+from flask import current_app
 
 # Flask-Login import for user authentication mixin
 from flask_login import UserMixin
@@ -70,7 +71,7 @@ class User(db.Model, UserMixin):
         """
         Generate a reset token for the user.
         """
-        s = Serializer(app.config['SECRET_KEY'], salt='password-reset-salt')
+        s = Serializer(current_app.config['SECRET_KEY'], salt='password-reset-salt')
         return s.dumps({'user_id': self.id})
 
     @staticmethod
@@ -78,7 +79,7 @@ class User(db.Model, UserMixin):
         """
         Verify the reset token and return the user if it is valid.
         """
-        s = Serializer(app.config['SECRET_KEY'], salt='password-reset-salt')
+        s = Serializer(current_app.config['SECRET_KEY'], salt='password-reset-salt')
         try:
             user_id = s.loads(token, max_age=age)['user_id']
             return User.query.get(user_id)

@@ -6,7 +6,10 @@
 
 # Import the configured Flask application instance from the pythonic package
 # This instance includes all extensions, configurations, and routes
-from pythonic import app
+from pythonic import create_app
+
+# Create the app instance using the application factory
+app = create_app()
 
 
 # ============================================================================
