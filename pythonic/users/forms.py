@@ -1,5 +1,4 @@
-# Standard library imports for string tokenization
-from tokenize import String
+
 
 # Flask-Login import for current user access
 from flask_login import current_user
@@ -7,20 +6,17 @@ from flask_login import current_user
 # Flask-WTF imports for form handling and CSRF protection
 from flask_wtf import FlaskForm
 
-# WTForms-SQLAlchemy for database-driven form fields
-from wtforms_sqlalchemy.fields import QuerySelectField
-
 # Flask-WTF file handling for file uploads
 from flask_wtf.file import FileField, FileAllowed
 
 # WTForms core components for form field types
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, SelectField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
 
 # WTForms validators for input validation and constraints
-from wtforms.validators import DataRequired, Email, Length, Regexp, EqualTo, ValidationError, Optional
+from wtforms.validators import DataRequired, Email, Length, Regexp, EqualTo, ValidationError
 
 # Local model imports for custom validation logic
-from pythonic.models import Course, User
+from pythonic.models import User
 
 
 class RegistrationForm(FlaskForm):
@@ -183,109 +179,6 @@ class LoginForm(FlaskForm):
     
     # Form submission button
     submit = SubmitField('Login')
-
-
-def choice_query():
-    """
-    Query function for dynamic course selection in forms.
-    
-    This function provides the query object for populating course
-    selection fields dynamically from the database.
-    
-    Returns:
-        Query: SQLAlchemy query object for Course model
-    """
-    return Course.query
-
-
-class NewLessonForm(FlaskForm):
-    """
-    Lesson creation form for authenticated users.
-    
-    This form enables users to create new lessons within existing courses,
-    with rich text content editing, optional slug generation, and
-    thumbnail image uploads.
-    
-    Fields:
-        title: Lesson title with required validation
-        content: Rich text content using editor integration
-        slug: Optional URL-friendly identifier (auto-generated if empty)
-        course: Course selection dropdown populated from database
-        thumbnail: Optional lesson preview image
-        submit: Form submission button
-    """
-    
-    # Content fields with validation
-    title = StringField('Title', validators=[DataRequired()])
-    content = TextAreaField('Content', validators=[DataRequired()])
-    
-    # Optional slug field for custom URL generation
-    slug = StringField('Slug (optional)', validators=[Optional()])
-    
-    # Course selection with database-driven choices
-    course = SelectField('Course', coerce=int, validators=[DataRequired()])
-    
-    # Optional thumbnail image upload
-    thumbnail = FileField('Thumbnail')
-    
-    # Form submission button
-    submit = SubmitField("Post")
-
-
-class NewCourseForm(FlaskForm):
-    """
-    Course creation form for authenticated users.
-    
-    This form enables users to create new courses with comprehensive
-    information including descriptions, icons, and optional slug generation.
-    
-    Fields:
-        title: Course title with length and uniqueness validation
-        description: Course description with length constraints and placeholder
-        icon: Optional course icon image upload
-        slug: Optional URL-friendly identifier (auto-generated if empty)
-        submit: Form submission button
-    
-    Custom Validation:
-        - Course title uniqueness check against existing courses
-    """
-    
-    # Course information fields
-    title = StringField("Course Title", validators=[DataRequired(), Length(min=5, max=100)])
-    description = TextAreaField("Course Description", validators=[
-        DataRequired(), 
-        Length(min=20, max=500)
-    ], render_kw={
-        "rows": 5, 
-        "placeholder": "Briefly describe what this course is about..."
-    })
-    
-    # Optional course icon with format restrictions
-    icon = FileField("Course icon", validators=[FileAllowed(['jpg', 'png'])])
-    
-    # Optional slug field for custom URL generation
-    slug = StringField('Slug (optional)', validators=[Optional()])
-    
-    # Form submission button
-    submit = SubmitField("Create Course")
-    
-    def validate_title(self, title):
-        """
-        Custom validation to ensure course title uniqueness.
-        
-        Args:
-            title: Title field data to validate
-        
-        Raises:
-            ValidationError: If course title already exists in database
-        """
-        course = Course.query.filter_by(title=title.data).first()
-        if course:
-            raise ValidationError('That course title is already taken. Please choose a different one.')
-
-class LessonUpdateForm(NewLessonForm):
-    thumbnail = FileField('Thumbnail', validators=[FileAllowed(['jpg', 'png'])])
-    submit = SubmitField('Update Lesson')
 
 
 class RequestResetForm(FlaskForm):

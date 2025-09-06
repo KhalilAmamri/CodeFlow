@@ -13,7 +13,7 @@
             <!-- Individual course card - responsive across different screen sizes -->
             <div class="col-sm-12 col-md-6 col-lg-4 p-3 d-flex align-items-stretch">
                 <!-- Course link wrapper for entire card -->
-                <a href="{{url_for('course', course_slug=course.slug)}}" class="text-decoration-none">
+                <a href="{{url_for('courses.course', course_slug=course.slug)}}" class="text-decoration-none">
                     <div class="card bg-dark text-light h-100">
                         <div class="card-body text-center">
                             <!-- Course icon image -->
@@ -37,9 +37,9 @@
                     {% for page in courses.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
                         {% if page %}
                             {% if page == courses.page %}
-                                <li class="page-item active"><a class="page-link" href="{{url_for('courses', page=page)}}">{{page}}</a></li>
+                                <li class="page-item active"><a class="page-link" href="{{url_for('courses.courses', page=page)}}">{{page}}</a></li>
                             {% else %}
-                                <li class="page-item"><a class="page-link" href="{{url_for('courses', page=page)}}">{{page}}</a></li>
+                                <li class="page-item"><a class="page-link" href="{{url_for('courses.courses', page=page)}}">{{page}}</a></li>
                             {% endif %}
                         {% else %}
                             <li class="page-item disabled"><a class="page-link" href="#">...</a></li>

@@ -75,7 +75,7 @@
                     <div class="card-body d-flex flex-column">
                         <!-- Lesson Title -->
                         <h5 class="card-title">
-                            <a href="{{url_for('lesson', course_slug=lesson.course_name.slug, lesson_slug=lesson.slug)}}" 
+                            <a href="{{url_for('lessons.lesson', course_slug=lesson.course_name.slug, lesson_slug=lesson.slug)}}" 
                                class="text-decoration-none text-dark hover-primary">
                                 {{lesson.title}}
                             </a>
@@ -107,7 +107,7 @@
                     
                     <!-- Card Footer -->
                     <div class="card-footer bg-transparent border-top-0">
-                        <a href="{{url_for('lesson', course_slug=lesson.course_name.slug, lesson_slug=lesson.slug)}}" 
+                        <a href="{{url_for('lessons.lesson', course_slug=lesson.course_name.slug, lesson_slug=lesson.slug)}}" 
                            class="btn btn-outline-primary btn-sm w-100">
                             <i class="fas fa-play me-1"></i>
                             Read Lesson
@@ -131,7 +131,7 @@
                             </li>
                         {% else %}
                             <li class="page-item">
-                                <a class="page-link" href="{{url_for('author', username=user.username, page=page)}}">{{page}}</a>
+                                <a class="page-link" href="{{url_for('users.author', username=user.username, page=page)}}">{{page}}</a>
                             </li>
                         {% endif %}
                     {% else %}

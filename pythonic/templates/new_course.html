@@ -5,7 +5,7 @@
 <div class="{{'tab-pane show active fade p-3' if active_tab=='new_course' else 'tab-pane fade p-3'}}" id="nav-newCourse">
     
     <!-- Course creation form with file upload support -->
-    <form action="{{ url_for('new_course') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ url_for('courses.new_course') }}" method="POST" enctype="multipart/form-data">
         <!-- CSRF protection token -->
         {{ new_course_form.hidden_tag() }}
         
@@ -80,7 +80,7 @@
                     {{ new_course_form.submit(class="btn btn-primary") }}
                     
                     <!-- Cancel button to return to dashboard -->
-                    <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Cancel</a>
+                    <a href="{{ url_for('users.dashboard') }}" class="btn btn-secondary">Cancel</a>
                 </div>
             </div>
         </fieldset>

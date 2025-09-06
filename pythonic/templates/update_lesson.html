@@ -121,12 +121,12 @@
                             <!-- Form Action Buttons -->
                             <div class="form-group d-flex justify-content-between align-items-center pt-3">
                                 <div class="d-flex gap-2">
-                                    <a href="{{ url_for('user_lessons') }}" 
+                                    <a href="{{ url_for('lessons.user_lessons') }}" 
                                        class="btn btn-secondary btn-lg">
                                         <i class="bi bi-arrow-left"></i> Back to My Lessons
                                     </a>
                                     {% if lesson.course_name and lesson.course_name.slug %}
-                                    <a href="{{ url_for('lesson', course_slug=lesson.course_name.slug, lesson_slug=lesson.slug) }}" 
+                                    <a href="{{ url_for('lessons.lesson', course_slug=lesson.course_name.slug, lesson_slug=lesson.slug) }}" 
                                        class="btn btn-outline-info btn-lg">
                                         <i class="bi bi-eye"></i> View Lesson
                                     </a>

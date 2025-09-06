@@ -9,27 +9,27 @@
         <div class="nav nav-tabs" id="tablist">
             
             <!-- Profile Management Tab -->
-            <a class="link" href="/dashboard/profile">
+            <a class="link" href="{{ url_for('users.profile') }}">
                 <button class="{{'nav-link active' if active_tab=='profile' else 'nav-link'}}" id="nav-profile-tab"
                     data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab"
                     aria-controls="nav-profile" aria-selected="true">Profile</button>
             </a>
 
             <!-- New Lesson Creation Tab -->
-            <a class="link" href="/dashboard/new_lesson">
+            <a class="link" href="{{ url_for('lessons.new_lesson') }}">
                 <button class="{{'nav-link active' if active_tab=='new_lesson' else 'nav-link'}}" id="nav-newLesson-tab"
                     data-bs-toggle="tab" data-bs-target="#nav-newLesson" type="button" role="tab"
                     aria-controls="nav-newLesson" aria-selected="true">New Lesson</button>
             </a>
 
             <!-- New Course Creation Tab -->
-            <a class="link" href="/dashboard/new_course">
+            <a class="link" href="{{ url_for('courses.new_course') }}">
                 <button class="{{'nav-link active' if active_tab=='new_course' else 'nav-link'}}" id="nav-newCourse-tab"
                     data-bs-toggle="tab" data-bs-target="#nav-newCourse" type="button" role="tab"
                     aria-controls="nav-newCourse" aria-selected="true">New Course</button>
             </a>
             <!-- User Lessons-->
-            <a class="link" href="/dashboard/user_lessons">
+            <a class="link" href="{{ url_for('lessons.user_lessons') }}">
                 <button class="{{'nav-link active' if active_tab=='lessons' else 'nav-link'}}" id="nav-lessons-tab"
                     data-bs-toggle="tab" data-bs-target="#nav-lessons" type="button" role="tab"
                     aria-controls="nav-lessons" aria-selected="true"> Your Lessons</button>

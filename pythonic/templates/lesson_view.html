@@ -12,7 +12,7 @@
                 <h1>{{ lesson.title }}</h1>
                 
                 <!-- Course context link -->
-                <p class="text-muted">Course: <a href="{{url_for('course', course_slug=course.slug)}}">{{ course.title }}</a></p>
+                <p class="text-muted">Course: <a href="{{url_for('courses.course', course_slug=course.slug)}}">{{ course.title }}</a></p>
                 
                 <!-- Main lesson body content -->
                 <div class="lesson-body">
@@ -25,7 +25,7 @@
                 <!-- Previous lesson button -->
                 <div class="col-4">
                     {% if previous_lesson %}
-                    <a href="{{url_for('lesson', course_slug=course.slug, lesson_slug=previous_lesson.slug)}}">
+                    <a href="{{url_for('lessons.lesson', course_slug=course.slug, lesson_slug=previous_lesson.slug)}}">
                         <button class="btn btn-warning" type="button" data-bs-toggle="tooltip" data-bs-placement="top"
                             title="{{previous_lesson.title}}">
                             &lt&lt&lt Previous Lesson
@@ -37,7 +37,7 @@
                 <!-- Next lesson button -->
                 <div class="col-4">
                     {% if next_lesson %}
-                    <a href="{{url_for('lesson', course_slug=course.slug, lesson_slug=next_lesson.slug)}}">
+                    <a href="{{url_for('lessons.lesson', course_slug=course.slug, lesson_slug=next_lesson.slug)}}">
                         <button class="btn btn-warning" type="button" data-bs-toggle="tooltip" data-bs-placement="top"
                             title="{{next_lesson.title}}">
                             &gt&gt&gt Next Lesson
@@ -73,13 +73,13 @@
                     <!-- Current lesson - highlighted as active -->
                     <li class="list-group-item border active" aria-current="true">
                         <a class="link text-light"
-                            href="{{url_for('lesson', course_slug=course.slug, lesson_slug=lsn.slug)}}">{{lsn.title}}</a>
+                            href="{{url_for('lessons.lesson', course_slug=course.slug, lesson_slug=lsn.slug)}}">{{lsn.title}}</a>
                     </li>
                     {% else %}
                     <!-- Other lessons in the course -->
                     <li class="list-group-item border" aria-current="false">
                         <a class="link text-dark"
-                            href="{{url_for('lesson', course_slug=course.slug, lesson_slug=lsn.slug)}}">{{lsn.title}}</a>
+                            href="{{url_for('lessons.lesson', course_slug=course.slug, lesson_slug=lsn.slug)}}">{{lsn.title}}</a>
                     </li>
                     {% endif %}
                 {% endfor %}

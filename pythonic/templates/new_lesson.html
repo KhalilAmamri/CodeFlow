@@ -5,7 +5,7 @@
 <div class="{{'tab-pane show active fade p-3' if active_tab=='new_lesson' else 'tab-pane fade p-3'}}" id="nav-newLesson">
     
     <!-- Lesson creation form with file upload support -->
-    <form action="{{ url_for('new_lesson') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ url_for('lessons.new_lesson') }}" method="POST" enctype="multipart/form-data">
         <!-- CSRF protection token -->
         {{ new_lesson_form.hidden_tag() }}
         
@@ -30,7 +30,7 @@
                 {% endif %}
                 
                 <!-- Link to create new course if needed -->
-                <a href="{{ url_for('new_course') }}" class="btn btn-primary mt-3">
+                <a href="{{ url_for('courses.new_course') }}" class="btn btn-primary mt-3">
                     New Course?
                 </a>
             </div>
