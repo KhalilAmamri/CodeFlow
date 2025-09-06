@@ -1,7 +1,13 @@
+"""
+Lesson Helper Functions
+
+This module contains utility functions for lesson-related operations
+such as deleting lesson thumbnails and managing lesson navigation.
+"""
+
 import os
 from flask import current_app
 
-# Import models for database queries
 from pythonic.models import Course, Lesson
 
 

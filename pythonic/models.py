@@ -1,14 +1,16 @@
-# Standard library imports for datetime functionality
+"""
+Database Models
+
+This module defines the SQLAlchemy models for the Pythonic learning platform,
+including User, Lesson, and Course models with their relationships and methods.
+"""
+
 from datetime import datetime
-
-# Local application imports for database and login management
-from pythonic import db, login_manager
 from flask import current_app
-
-# Flask-Login import for user authentication mixin
 from flask_login import UserMixin
-
 from itsdangerous import URLSafeSerializer as Serializer
+
+from pythonic import db, login_manager
 
 
 @login_manager.user_loader

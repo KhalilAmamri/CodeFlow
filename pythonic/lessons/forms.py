@@ -1,17 +1,16 @@
 
-# Flask-WTF imports for form handling and CSRF protection
+"""
+Lesson Forms
+
+This module contains WTForms for lesson creation and management
+with validation for lesson data, course selection, and file uploads.
+"""
+
 from flask_wtf import FlaskForm
-
-# Flask-WTF file handling for file uploads
 from flask_wtf.file import FileField, FileAllowed
-
-# WTForms core components for form field types
 from wtforms import StringField, TextAreaField, SelectField, SubmitField
-
-# WTForms validators for input validation and constraints
 from wtforms.validators import DataRequired, Optional
 
-# Local model imports for custom validation logic
 from pythonic.models import Course
 
 

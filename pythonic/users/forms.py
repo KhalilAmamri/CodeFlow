@@ -1,21 +1,17 @@
 
+"""
+User Forms
 
-# Flask-Login import for current user access
+This module contains WTForms for user authentication, registration,
+and profile management with comprehensive validation.
+"""
+
 from flask_login import current_user
-
-# Flask-WTF imports for form handling and CSRF protection
 from flask_wtf import FlaskForm
-
-# Flask-WTF file handling for file uploads
 from flask_wtf.file import FileField, FileAllowed
-
-# WTForms core components for form field types
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
-
-# WTForms validators for input validation and constraints
 from wtforms.validators import DataRequired, Email, Length, Regexp, EqualTo, ValidationError
 
-# Local model imports for custom validation logic
 from pythonic.models import User
 
 

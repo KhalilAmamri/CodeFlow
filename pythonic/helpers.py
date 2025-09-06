@@ -1,13 +1,14 @@
 
+"""
+Helper Functions
 
-# Standard library imports
+This module contains utility functions for image processing and file management
+used throughout the application.
+"""
+
 import os
 import secrets
-
-# PIL (Pillow) for image processing
 from PIL import Image
-
-# Flask application context
 from flask import current_app
 
 

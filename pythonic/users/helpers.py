@@ -1,16 +1,16 @@
 
 
+"""
+User Helper Functions
 
-# Standard library imports
+This module contains utility functions for user-related operations
+such as sending password reset emails.
+"""
+
 import os
-
-# Flask-Mail for email functionality
+from flask import url_for
 from flask_mail import Message
 
-# Flask URL routing
-from flask import url_for
-
-# Import mail instance from main app
 from pythonic import mail
 
 

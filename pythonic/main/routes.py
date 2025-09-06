@@ -1,20 +1,15 @@
-from flask import Blueprint
+"""
+Main Application Routes
 
-# Standard library imports for security, image processing, and file operations
+This module contains the main application routes including home page,
+about page, and TinyMCE image upload functionality.
+"""
+
+from flask import Blueprint, render_template, url_for, request, jsonify, current_app
 import secrets
 import os
 
-
-# Local model imports for database entities
 from pythonic.models import Lesson, Course
-
-
-# Flask core imports for web framework functionality
-from flask import render_template, url_for, request, jsonify
-
-
-from flask import current_app
-
 
 main = Blueprint('main', __name__)
 
