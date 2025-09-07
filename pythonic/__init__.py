@@ -46,10 +46,10 @@ def create_app():
     from pythonic.courses.routes import courses_bp
     from pythonic.lessons.routes import lessons
     from pythonic.users.routes import users
-
+    from pythonic.errors.handlers import errors
     app.register_blueprint(main)
     app.register_blueprint(courses_bp)
     app.register_blueprint(lessons)
     app.register_blueprint(users)
-
+    app.register_blueprint(errors)
     return app
