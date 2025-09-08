@@ -87,6 +87,12 @@
                 My Account
               </button>
               <ul class="dropdown-menu dropdown-menu-end">
+                {% if current_user.is_authenticated and (current_user.is_admin|default(false)) %}
+                <li class="nav-item">
+                  <a href="{{ url_for('admin.index') }}" class="dropdown-item">Admin</a>
+                </li>
+                <li><hr class="dropdown-divider"></li>
+                {% endif %}
                 <li class="nav-item">
                   <a href="{{ url_for('users.dashboard') }}" class="dropdown-item">Dashboard</a>
                 </li>

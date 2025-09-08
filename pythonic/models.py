@@ -66,6 +66,9 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(60), nullable=False)
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     
+    # Authorization fields
+    is_admin = db.Column(db.Boolean, nullable=False, default=False)
+    
     # Relationship to lessons created by this user
     lessons = db.relationship('Lesson', backref='author', lazy=True)
     

@@ -20,7 +20,7 @@ from pythonic.config import Config
 # Initialize extensions
 db = SQLAlchemy()
 bcrypt = Bcrypt()
-migrate = Migrate(db)
+migrate = Migrate()
 login_manager = LoginManager()
 modals = Modal()
 mail = Mail()
@@ -42,6 +42,7 @@ def create_app():
     login_manager.init_app(app)
     modals.init_app(app)
     mail.init_app(app)
+    migrate.init_app(app, db)
     admin.init_app(app, index_view=MyAdminIndexView())
     # Import and register blueprints
     from pythonic.main.routes import main

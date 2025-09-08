@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, redirect, url_for, flash
 from flask_admin import AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 from flask_login import current_user
@@ -11,13 +11,21 @@ class UserModelView(ModelView):
 
 class MyModelView(ModelView):
     def is_accessible(self):
-        return current_user.is_authenticated and current_user.username == 'KhalilAmamri'
+        return current_user.is_authenticated and getattr(current_user, 'is_admin', False)
+
+    def inaccessible_callback(self, name, **kwargs):
+        flash('You do not have permission to access the admin.', 'warning')
+        return redirect(url_for('users.login'))
 class MyAdminIndexView(AdminIndexView):
     def is_accessible(self):
-        return current_user.is_authenticated and current_user.username == 'KhalilAmamri'
+        return current_user.is_authenticated and getattr(current_user, 'is_admin', False)
+
+    def inaccessible_callback(self, name, **kwargs):
+        flash('You do not have permission to access the admin.', 'warning')
+        return redirect(url_for('users.login'))
 admin_bp = Blueprint('admin_bp', __name__)
 
 admin.add_view(UserModelView(User, db.session))
-admin.add_view(ModelView(Lesson, db.session))
-admin.add_view(ModelView(Course, db.session))
+admin.add_view(MyModelView(Lesson, db.session))
+admin.add_view(MyModelView(Course, db.session))
 
