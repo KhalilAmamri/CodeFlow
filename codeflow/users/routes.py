@@ -5,22 +5,22 @@ from flask import Blueprint
 from flask_login import login_user, current_user, logout_user, login_required
 
 # Local model imports for database entities
-from pythonic.models import User, Lesson
+from codeflow.models import User, Lesson
 
 # Flask core imports for web framework functionality
 from flask import render_template, url_for, flash, redirect, request, abort
 
 # Local form imports for user input validation and processing
-from pythonic.users.forms import RegistrationForm, LoginForm, UpdateProfileForm, RequestResetForm, ResetPasswordForm
+from codeflow.users.forms import RegistrationForm, LoginForm, UpdateProfileForm, RequestResetForm, ResetPasswordForm
 
 # Local application imports for database, encryption, and app instance
-from pythonic import db, bcrypt
+from codeflow import db, bcrypt
 
 # Local helper imports for image processing
-from pythonic.helpers import save_picture
-from pythonic.lessons.helpers import delete_picture
+from codeflow.helpers import save_picture
+from codeflow.lessons.helpers import delete_picture
 # Local helper imports for email functionality
-from pythonic.users.helpers import send_reset_email
+from codeflow.users.helpers import send_reset_email
 
 
 users = Blueprint('users', __name__)

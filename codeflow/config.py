@@ -7,7 +7,7 @@ class Config:
 
     # Database configuration
     # Default to local SQLite if not provided
-    SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI', 'sqlite:///pythonic.db')
+    SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI', 'sqlite:///codeflow.db')
 
     # Disable track modifications overhead (recommended)
     SQLALCHEMY_TRACK_MODIFICATIONS = False

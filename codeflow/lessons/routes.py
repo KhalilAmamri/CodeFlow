@@ -5,22 +5,22 @@ from flask import Blueprint
 from flask_login import current_user, login_required
 
 # Local model imports for database entities
-from pythonic.models import Lesson, Course
+from codeflow.models import Lesson, Course
 
 # Flask core imports for web framework functionality
 from flask import render_template, url_for, flash, redirect, request, abort
 
 # Local form imports for user input validation and processing
-from pythonic.lessons.forms import NewLessonForm, LessonUpdateForm
+from codeflow.lessons.forms import NewLessonForm, LessonUpdateForm
 # Local form imports for course validation and processing
-from pythonic.courses.forms import NewCourseForm
+from codeflow.courses.forms import NewCourseForm
 
-from pythonic.helpers import save_picture
+from codeflow.helpers import save_picture
 
-from pythonic.lessons.helpers import fet_previous_next_lesson, delete_picture
+from codeflow.lessons.helpers import fet_previous_next_lesson, delete_picture
 
 # Local application imports for database, encryption, and app instance
-from pythonic import db
+from codeflow import db
 
 # Flask-Modals imports for dynamic modal functionality
 from flask_modals import Modal, render_template_modal

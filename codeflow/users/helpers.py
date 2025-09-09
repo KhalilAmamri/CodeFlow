@@ -11,12 +11,12 @@ import os
 from flask import url_for
 from flask_mail import Message
 
-from pythonic import mail
+from codeflow import mail
 
 
 def send_reset_email(user):
     token = user.get_reset_token()
-    sender_email = os.getenv('EMAIL_USER') or 'noreply@pythonic.com'
+    sender_email = os.getenv('EMAIL_USER') or 'noreply@codeflow.com'
     msg = Message('Password Reset Request', sender=sender_email, recipients=[user.email])
     msg.body = f'''To reset your password, visit the following link:
     {url_for('reset_token', token=token, _external=True)}

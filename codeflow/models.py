@@ -1,7 +1,7 @@
 """
 Database Models
 
-This module defines the SQLAlchemy models for the Pythonic learning platform,
+This module defines the SQLAlchemy models for the CodeFlow learning platform,
 including User, Lesson, and Course models with their relationships and methods.
 """
 
@@ -10,7 +10,7 @@ from flask import current_app
 from flask_login import UserMixin
 from itsdangerous import URLSafeSerializer as Serializer
 
-from pythonic import db, login_manager
+from codeflow import db, login_manager
 
 
 @login_manager.user_loader

@@ -9,7 +9,7 @@ from flask import Blueprint, render_template, url_for, request, jsonify, current
 import secrets
 import os
 
-from pythonic.models import Lesson, Course
+from codeflow.models import Lesson, Course
 
 main = Blueprint('main', __name__)
 

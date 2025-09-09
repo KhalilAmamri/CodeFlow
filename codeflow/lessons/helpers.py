@@ -8,7 +8,7 @@ such as deleting lesson thumbnails and managing lesson navigation.
 import os
 from flask import current_app
 
-from pythonic.models import Course, Lesson
+from codeflow.models import Course, Lesson
 
 
 def delete_picture(picture_name, path):

@@ -11,7 +11,7 @@ from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, TextAreaField, SelectField, SubmitField
 from wtforms.validators import DataRequired, Optional
 
-from pythonic.models import Course
+from codeflow.models import Course
 
 
 def choice_query():

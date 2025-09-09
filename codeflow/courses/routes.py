@@ -3,9 +3,9 @@ from flask import Blueprint, flash, redirect, request, url_for
 
 
 # Local model imports for database entities
-from pythonic import db
-from pythonic.courses.forms import NewCourseForm
-from pythonic.models import Lesson, Course
+from codeflow import db
+from codeflow.courses.forms import NewCourseForm
+from codeflow.models import Lesson, Course
 
 
 # Flask core imports for web framework functionality
@@ -13,7 +13,7 @@ from flask import render_template
 
 
 
-from pythonic.helpers import save_picture
+from codeflow.helpers import save_picture
 
 
 

@@ -12,7 +12,7 @@ from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
 from wtforms.validators import DataRequired, Email, Length, Regexp, EqualTo, ValidationError
 
-from pythonic.models import User
+from codeflow.models import User
 
 
 class RegistrationForm(FlaskForm):

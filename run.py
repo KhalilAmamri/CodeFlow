@@ -1,12 +1,12 @@
 # ============================================================================
 # APPLICATION ENTRY POINT AND SERVER CONFIGURATION
 # ============================================================================
-# This module serves as the main entry point for the Pythonic Flask application.
+# This module serves as the main entry point for the CodeFlow Flask application.
 # It imports the configured Flask app instance and starts the development server.
 
-# Import the configured Flask application instance from the pythonic package
+# Import the configured Flask application instance from the codeflow package
 # This instance includes all extensions, configurations, and routes
-from pythonic import create_app
+from codeflow import create_app
 
 # Create the app instance using the application factory
 app = create_app()

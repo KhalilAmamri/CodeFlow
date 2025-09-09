@@ -2,8 +2,8 @@ from flask import Blueprint, redirect, url_for, flash
 from flask_admin import AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 from flask_login import current_user
-from pythonic.models import User, Lesson, Course
-from pythonic import bcrypt, db, admin
+from codeflow.models import User, Lesson, Course
+from codeflow import bcrypt, db, admin
 
 class UserModelView(ModelView):
     def on_model_change(self, form, model, is_created):

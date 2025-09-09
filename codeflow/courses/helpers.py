@@ -7,7 +7,7 @@ This module contains utility functions for course-related operations
 such as deleting course icons and managing course assets.
 """
 
-from pythonic.helpers import delete_picture
+from codeflow.helpers import delete_picture
 
 
 def delete_course_picture(course):

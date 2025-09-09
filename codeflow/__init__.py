@@ -2,7 +2,7 @@
 Flask Application Factory
 
 This module initializes the Flask app, configures extensions,
-and sets up the application context for the Pythonic learning platform.
+and sets up the application context for the CodeFlow learning platform.
 """
 
 from flask import Flask
@@ -15,7 +15,7 @@ from flask_mail import Mail
 import os
 from flask_admin import Admin
 
-from pythonic.config import Config
+from codeflow.config import Config
 
 # Initialize extensions
 db = SQLAlchemy()
@@ -35,7 +35,7 @@ def create_app():
     """Create and configure the Flask application instance."""
     app = Flask(__name__)
     app.config.from_object(Config)
-    from pythonic.admin_bp.routes import MyAdminIndexView, MyModelView
+    from codeflow.admin_bp.routes import MyAdminIndexView, MyModelView
     # Initialize extensions with app
     db.init_app(app)
     bcrypt.init_app(app)
@@ -45,12 +45,12 @@ def create_app():
     migrate.init_app(app, db)
     admin.init_app(app, index_view=MyAdminIndexView())
     # Import and register blueprints
-    from pythonic.main.routes import main
-    from pythonic.courses.routes import courses_bp
-    from pythonic.lessons.routes import lessons
-    from pythonic.users.routes import users
-    from pythonic.errors.handlers import errors
-    from pythonic.admin_bp.routes import admin_bp
+    from codeflow.main.routes import main
+    from codeflow.courses.routes import courses_bp
+    from codeflow.lessons.routes import lessons
+    from codeflow.users.routes import users
+    from codeflow.errors.handlers import errors
+    from codeflow.admin_bp.routes import admin_bp
     app.register_blueprint(main)
     app.register_blueprint(courses_bp)
     app.register_blueprint(lessons)

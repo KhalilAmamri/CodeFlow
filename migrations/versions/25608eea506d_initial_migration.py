@@ -8,7 +8,7 @@ Create Date: 2025-08-23 00:30:46.632268
 # ============================================================================
 # INITIAL DATABASE MIGRATION
 # ============================================================================
-# This migration establishes the initial database schema for the Pythonic app
+# This migration establishes the initial database schema for the CodeFlow app
 # It adds the bio field to the user table for user profile information
 
 # Alembic operation imports for database schema modifications
