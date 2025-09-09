@@ -1,0 +1,46 @@
+# CodeFlow Flask Application Dependencies
+# Install with: pip install -r requirements.txt
+
+# Core Flask framework
+Flask==3.0.0
+
+# Database and ORM
+Flask-SQLAlchemy==3.1.1
+Flask-Migrate==4.0.5
+
+# Authentication and Security
+Flask-Login==0.6.3
+Flask-Bcrypt==1.0.1
+
+# Email functionality
+Flask-Mail==0.9.1
+
+# Admin interface
+Flask-Admin==1.6.1
+
+# UI Components
+Flask-Modals==0.1.0
+
+# Form handling
+WTForms==2.3.3
+
+# Database migration
+Alembic==1.13.1
+
+# Environment variables
+python-dotenv==1.0.0
+
+# Email validation
+email-validator==2.1.0
+
+# Image processing
+Pillow==10.1.0
+
+# Template engine
+Jinja2==3.1.2
+
+# Additional utilities
+Werkzeug==3.0.1
+click==8.1.7
+itsdangerous==2.1.2
+MarkupSafe==2.1.3
