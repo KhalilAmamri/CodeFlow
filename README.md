@@ -89,19 +89,19 @@ To create a seamless learning experience that flows naturally from beginner to a
 
 2. **🐍 Create virtual environment**
    ```bash
-   python -m venv codeflow_env
+   python -m venv venv
    ```
 
 3. **🔧 Activate virtual environment**
    
    **Windows:**
    ```powershell
-   codeflow_env\Scripts\Activate.ps1
+   venv\Scripts\Activate.ps1
    ```
    
    **macOS/Linux:**
    ```bash
-   source codeflow_env/bin/activate
+   source venv/bin/activate
    ```
 
 4. **📦 Install dependencies**

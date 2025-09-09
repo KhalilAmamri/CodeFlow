@@ -1,5 +1,5 @@
 # ============================================================================
-# GIT IGNORE CONFIGURATION FOR PYTHONIC FLASK PROJECT
+# GIT IGNORE CONFIGURATION FOR CODEFLOW FLASK PROJECT
 # ============================================================================
 # This file specifies which files and directories should be ignored by Git
 # It prevents temporary, generated, and sensitive files from being committed
