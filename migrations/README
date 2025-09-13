@@ -1,8 +1,1 @@
-# ============================================================================
-# FLASK-MIGRATE CONFIGURATION
-# ============================================================================
-# This directory contains the Flask-Migrate configuration and migration scripts
-# for the CodeFlow Flask application.
-
-# Single-database configuration for Flask.
-# This setup uses a single SQLite database with Alembic for schema management.
+Single-database configuration for Flask.
