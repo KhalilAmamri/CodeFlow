@@ -6,8 +6,13 @@ class Config:
     SECRET_KEY = os.getenv('SECRET_KEY', 'dev-change-me')
 
     # Database configuration
-    # Default to local SQLite if not provided
-    SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI', 'sqlite:///codeflow.db')
+    # Prefer SQLALCHEMY_DATABASE_URI; fall back to Render/Dokku style DATABASE_URL; else local SQLite
+    _db_url = os.getenv('SQLALCHEMY_DATABASE_URI') or os.getenv('DATABASE_URL')
+    # Normalize old postgres:// scheme to postgresql:// for SQLAlchemy
+    if _db_url and _db_url.startswith('postgres://'):
+        _db_url = _db_url.replace('postgres://', 'postgresql://', 1)
+    # Default to a file in the instance folder for local dev
+    SQLALCHEMY_DATABASE_URI = _db_url or 'sqlite:///instance/codeflow.db'
 
     # Disable track modifications overhead (recommended)
     SQLALCHEMY_TRACK_MODIFICATIONS = False
