@@ -18,7 +18,7 @@ services:
           name: codeflow-db
           property: connectionString
       - key: PYTHON_VERSION
-        value: 3.13
+        value: 3.12
       - key: FLASK_ENV
         value: production
       - key: SECRET_KEY
