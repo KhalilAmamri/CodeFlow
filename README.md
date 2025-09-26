@@ -83,7 +83,7 @@ To create a seamless learning experience that flows naturally from beginner to a
 
 1. **📥 Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/codeflow.git
+   git clone https://github.com/KhalilAmamri/codeflow.git
    cd codeflow
    ```
 
