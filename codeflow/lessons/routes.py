@@ -23,7 +23,13 @@ from codeflow.lessons.helpers import fet_previous_next_lesson, delete_picture
 from codeflow import db
 
 # Flask-Modals imports for dynamic modal functionality
-from flask_modals import Modal, render_template_modal
+try:
+    from flask_modals import Modal, render_template_modal  # type: ignore
+    _HAS_FLASK_MODALS = True
+except Exception:
+    Modal = None
+    render_template_modal = None
+    _HAS_FLASK_MODALS = False
 
 
 
@@ -88,13 +94,12 @@ def new_lesson():
         flash("Your lesson has been created!", "success")
         return redirect(url_for("users.dashboard"))
     
-    # Prepare modal functionality for form display
-    modals = Modal().load
-    return render_template_modal(
-        "new_lesson.html", title="New Lesson",
-        new_lesson_form=new_lesson_form, 
-        active_tab='new_lesson',
-        modals=modals
+    # Render the template normally (Bootstrap modals work via HTML/JS in templates)
+    return render_template(
+        "new_lesson.html",
+        title="New Lesson",
+        new_lesson_form=new_lesson_form,
+        active_tab='new_lesson'
     )
 
 @lessons.route("/<string:course_slug>/<string:lesson_slug>")

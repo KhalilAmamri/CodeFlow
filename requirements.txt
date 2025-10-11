@@ -19,10 +19,13 @@ Flask-Mail==0.9.1
 Flask-Admin==1.6.1
 
 # UI Components
-Flask-Modals
+# Flask-Modals removed because it's incompatible with Flask 3.x
+
 
 # Form handling
+# Form handling
 WTForms==2.3.3
+Flask-WTF==1.2.1
 
 # Database migration
 Alembic==1.13.1

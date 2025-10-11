@@ -10,7 +10,14 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_migrate import Migrate
-from flask_modals import Modal
+# flask_modals is incompatible with Flask 3.x in many cases.
+# Import it optionally and provide a safe fallback when it's not available.
+try:
+    from flask_modals import Modal  # type: ignore
+    _HAS_FLASK_MODALS = True
+except Exception:
+    Modal = None
+    _HAS_FLASK_MODALS = False
 from flask_mail import Mail
 import os
 from flask_admin import Admin
