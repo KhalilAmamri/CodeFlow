@@ -29,7 +29,9 @@ db = SQLAlchemy()
 bcrypt = Bcrypt()
 migrate = Migrate()
 login_manager = LoginManager()
-modals = Modal()
+# Do not instantiate Modal at import time. We'll create and init it inside create_app()
+ModalClass = Modal if _HAS_FLASK_MODALS else None
+modals = None
 mail = Mail()
 admin = Admin()
 
@@ -47,7 +49,14 @@ def create_app():
     db.init_app(app)
     bcrypt.init_app(app)
     login_manager.init_app(app)
-    modals.init_app(app)
+    # Instantiate and initialize modals extension only when available
+    if ModalClass is not None:
+        # create an instance now that app exists
+        modals_local = ModalClass()
+        modals_local.init_app(app)
+        # expose it on the module-level name for potential use elsewhere
+        global modals
+        modals = modals_local
     mail.init_app(app)
     migrate.init_app(app, db)
     admin.init_app(app, index_view=MyAdminIndexView())
