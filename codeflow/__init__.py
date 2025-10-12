@@ -57,6 +57,13 @@ def create_app():
         # expose it on the module-level name for potential use elsewhere
         global modals
         modals = modals_local
+        # ensure templates can call `modals()` even if the extension
+        # doesn't automatically register a Jinja global
+        try:
+            app.jinja_env.globals['modals'] = modals_local
+        except Exception:
+            # being defensive: if jinja env isn't ready, ignore
+            pass
     mail.init_app(app)
     migrate.init_app(app, db)
     admin.init_app(app, index_view=MyAdminIndexView())
@@ -73,4 +80,11 @@ def create_app():
     app.register_blueprint(users)
     app.register_blueprint(errors)
     app.register_blueprint(admin_bp)
+    # If Flask-Modals isn't available, provide a no-op `modals` callable
+    # in Jinja so templates that call `{{ modals() }}` won't raise.
+    if 'modals' not in app.jinja_env.globals:
+        def _noop_modals(*args, **kwargs):
+            return ''
+
+        app.jinja_env.globals['modals'] = _noop_modals
     return app
