@@ -18,6 +18,36 @@
 
 ---
 
+<!-- Project overview image -->
+<div align="center">
+
+![Project overview — Home page](codeflow/static/overview_images/mainpage.png)
+
+*Screenshot — Home page / course list (click to enlarge on GitHub)*
+
+</div>
+
+<!-- End overview image -->
+
+<!-- Compact gallery of additional screenshots -->
+<div align="center">
+
+**Other screenshots:**
+
+[![Login](codeflow/static/overview_images/login.png){width=150}](codeflow/static/overview_images/login.png)
+&nbsp;
+[![Create Account](codeflow/static/overview_images/createaccount.png){width=150}](codeflow/static/overview_images/createaccount.png)
+&nbsp;
+[![New Lesson](codeflow/static/overview_images/create_new_lesson.png){width=150}](codeflow/static/overview_images/create_new_lesson.png)
+&nbsp;
+[![Admin](codeflow/static/overview_images/admin_page.png){width=150}](codeflow/static/overview_images/admin_page.png)
+
+*Click any thumbnail to view the full-size image.*
+
+</div>
+
+
+
 ## 📖 About
 
 **CodeFlow** is a comprehensive learning management system designed to provide a smooth, intuitive experience for both learners and instructors. Built with modern web technologies, it offers structured learning paths, interactive content management, and a professional admin interface.
