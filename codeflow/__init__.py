@@ -57,13 +57,23 @@ def create_app():
         # expose it on the module-level name for potential use elsewhere
         global modals
         modals = modals_local
-        # ensure templates can call `modals()` even if the extension
-        # doesn't automatically register a Jinja global
-        try:
-            app.jinja_env.globals['modals'] = modals_local
-        except Exception:
-            # being defensive: if jinja env isn't ready, ignore
-            pass
+        # Register a safe callable wrapper so templates using `{{ modals() }}` won't break
+        def _safe_modals_callable(*args, **kwargs):
+            try:
+                # If the extension instance is itself callable, call it
+                if callable(modals_local):
+                    return modals_local(*args, **kwargs)
+                # Some implementations may expose a `render` method
+                render = getattr(modals_local, 'render', None)
+                if callable(render):
+                    return render(*args, **kwargs)
+            except Exception:
+                # Swallow any rendering errors to avoid crashing templates
+                pass
+            # Default to empty string (no-op)
+            return ''
+
+        app.jinja_env.globals['modals'] = _safe_modals_callable
     mail.init_app(app)
     migrate.init_app(app, db)
     admin.init_app(app, index_view=MyAdminIndexView())
