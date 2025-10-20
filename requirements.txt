@@ -53,3 +53,4 @@ psycopg2-binary==2.9.6
 
 # Production WSGI server
 gunicorn==21.2.0
+sendgrid
